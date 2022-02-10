@@ -10,4 +10,4 @@ This repository belongs to Team 20 consisting of the following members:
 4. Kevin Brazile
 5. Benjamin Blinder
 
-hello
+Instructor: Timothy John Hickey
