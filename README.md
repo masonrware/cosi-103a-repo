@@ -9,3 +9,5 @@ This repository belongs to Team 20 consisting of the following members:
 3. Kayla Hoffman
 4. Kevin Brazile
 5. Benjamin Blinder
+
+Instructor: Tim Hickey!
