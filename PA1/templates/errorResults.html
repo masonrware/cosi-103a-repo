@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Washington Post Search</title>
+</head>
+<body>
+
+<h3>Washington Post Search</h3>
+
+<form action="{{ url_for('results') }}" name="search" method="post">
+    <label for="query">Query:</label>
+    <input type="text" id="query" name="query" size=50>
+    <input type="submit" value="Search">
+</form>
+
+
+<!-- start of doc -->
+<p>No Results Found For That Query :(</p>
+<p>Page {{ PAGE_NUM }} / {{ TOTAL_PAGES }}</p>
+{% if PAGE_NUM != 1 %}
+    <a href="{{ url_for('prev_page', page_id=PAGE_NUM-1, total_pages=TOTAL_PAGES) }}">
+        <input type="button" class="btn btn-secondary"value="Prev Page" />
+    </a>
+{% endif %}
+{% if PAGE_NUM != TOTAL_PAGES %}
+    <a href="{{ url_for('next_page', page_id=PAGE_NUM+1, total_pages=TOTAL_PAGES) }}">
+        <input type="button" class="btn btn-secondary" value="Next Page" />
+    </a>
+{% endif %}
+
+
+</body>
+</html>
