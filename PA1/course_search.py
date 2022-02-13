@@ -36,33 +36,24 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
 
     if command in ['q', 'quit']:
         return render_template('home.html', target=[])
-
-
     elif command in ['h', 'help']:
         msg = (TOP_LEVEL_MENU).split(';')
         cmd_fltr_dict = {}
         for command_index_pair in enumerate(msg):
             cmd_fltr_dict[command_index_pair[0]] = command_index_pair[1].split(',')
-        
         return render_template('help.html', commands = cmd_fltr_dict)
-
-
     elif command in ['r', 'reset']:
         schedule.load_courses()
         schedule = schedule.enrolled(range(5, 1000))
         return render_template('home.html', target=[])
-
-
     elif command in ['t', 'term']:
         if filter!='':
             schedule = schedule.term(filter).sort('term')
             filtered_terms = render_list()
-            res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_terms]
+            res = ['There are {} courses in term: {} \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_terms]
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
-
-
     elif command in ['s', 'subject']:
         if filter!='':
             schedule = schedule.subject(filter).sort('subject')
@@ -71,7 +62,6 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
-
     ##ADD IF STATMENTS TO HANDLE DIFFERENT COMMANDS HERE
 
     else:
