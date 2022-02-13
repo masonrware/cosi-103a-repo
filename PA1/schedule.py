@@ -48,6 +48,8 @@ class Schedule:
     def sort(self, field):
         if field == 'subject':
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))
+        elif field == 'term':
+            return Schedule(sorted(self.courses, key=lambda course: course['term']))
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
         else:
             print("can't sort by " + str(field) + " yet")

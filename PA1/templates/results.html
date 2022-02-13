@@ -17,19 +17,21 @@
     <input type="submit" value="Search">
 </form>
 
-<ul>
+<div>
     {% if target|length>0 %}
         {% for res in target %}
             {% if res is iterable and (res is not string and res is not mapping) %}
+            <ol>
                 {% for item in res %}
                     <li>{{ item }}</li>
                 {% endfor %}
+            </ol>
             {% else %}
-                <li>{{ res }}</li>
+                <h4>{{ res }}</h4>
             {% endif %}
         {% endfor %}
     {% endif %}
-</ul>
+</div>
 
 
 </body>

@@ -17,7 +17,8 @@
         <div id='description'>
             <h3>Description</h3>
             <p id='gen description'>
-                description
+                This app parses and extracts JSON data about Brandeis University's Class Offerings from 2020-2021. 
+                It does so by.....elaboration inbound...
             </p>
         </div>
         <br>
@@ -37,17 +38,18 @@
             <h2>Build & Run</h2>
             <div id='Build Instructions'>
                 <h3>Build Instrcutions</h3>
-                <p>instructions</p> 
+                <p>In order to build the platform to interact with it and search for course info, the flask app needs to be locally
+                hosted. After making sure all dependecies are installed, using the aforementioned <code>pip install -r requirements.txt</code> command, you can run the app via the terminal using the <code>python3 app.py</code> command (making sure you're in the root directory of this project). That's it, navigate to the local host window in your prefered browser and access port 2400, proceed to run instructions.</p> 
             </div>
             <div id ='Run Instrcutions'>
                 <h3>Run Instrcutions</h3>
-                <p>instructions</p>
+                <p>Now that the app is up and running locally and you are viewing its home page in the browser, you can interact with it. To get started enter help or h into the command field. That's it, follow the on-screen instructions and you're all set.</p>
             </div>
         </div>
         <hr>
         <div id='Testing'>
             <h3>Testing</h3>
-            <p>testing</p>
+            <p>...elaboration inbound...</p>
         </div>
     </body>
 </html>
