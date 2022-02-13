@@ -5,13 +5,15 @@ import course_search as search
 
 app = Flask(__name__)
 
+
+
+
 @app.route("/")
 def home() -> str:
     """
     home page
     :return:
     """
-    ##execute the topmenu from course search
     return render_template("home.html")
 
 
@@ -22,7 +24,15 @@ def results() -> str:
     :return:
     """
     query_text = request.form["query"]  # Get the raw user query from home page
+    search.topmenu(query_text)
 
+    ## add this to the final return statement and add a field in results.html
+    ##add all of these to a string and then return a list of courses
+            print("courses has", len(schedule.courses), 'elements', end="\n\n")
+            print('here are the first 10')
+            for course in schedule.courses[:10]:
+                print_course(course)
+            print('\n' * 3)
     return render_template("results.html", query=##)
 
 

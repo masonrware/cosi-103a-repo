@@ -35,6 +35,7 @@ def topmenu(command: str) -> dict:
             ## return a render of home then,
             return
         elif command in ['h', 'help']:
+            ## change this to NOT return a render template
             return '{}\n' + '-' * 40 + '\n\n'
         elif command in ['r', 'reset']:
             schedule.load_courses()
@@ -59,14 +60,6 @@ def topmenu(command: str) -> dict:
             ##different render 
 
             print('command', command, 'is not supported')
-        ###NO RETURNS ABOVE THIS LINE!!!!
-
-        ##add all of these to a string and then return a list of courses
-            print("courses has", len(schedule.courses), 'elements', end="\n\n")
-            print('here are the first 10')
-            for course in schedule.courses[:10]:
-                print_course(course)
-            print('\n' * 3)
 
 
 def print_course(course):
