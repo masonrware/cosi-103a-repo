@@ -6,70 +6,70 @@ import schedule
 import sys
 from flask import Flask, render_template, request
 
-schedule = schedule.Schedule()
-schedule.load_courses()
-schedule = schedule.enrolled(range(5, 1000))  # eliminate courses with no students
-
 TOP_LEVEL_MENU = '''
-quit
-reset
-term  (filter by term)
-course (filter by coursenum, e.g. COSI 103a)
-instructor (filter by instructor)
-subject (filter by subject, e.g. COSI, or LALS)
-title  (filter by phrase in title)
-description (filter by phrase in description)
-timeofday (filter by day and time, e.g. meets at 11 on Wed)
+quit; 
+reset;
+term  (filter by term);
+course (filter by coursenum, e.g. COSI 103a);
+instructor (filter by instructor);
+subject (filter by subject, e.g. COSI, or LALS);
+title  (filter by phrase in title);
+description (filter by phrase in description);
+timeofday (filter by day and time, e.g. meets at 11 on Wed);
 '''
 
-terms = {c['term'] for c in schedule.courses}
+
+def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
+    terms = {c['term'] for c in schedule.courses}
+    subjects = {c['subject'] for c in schedule.courses}
+    ##ADD MORE HERE
+
+    def render_list() -> list:
+        """
+        returns a list of classes with specified fields: (subject, coursenum, section, name, term, instructor)
+        """
+        res = []
+        for c in schedule.courses[:10]:
+            res.append((c['subject'], c['coursenum'], c['section'], c['name'], c['term'], c['instructor']))
+        return res
+
+    if command in ['q', 'quit']:
+        return render_template('home.html', target=[])
 
 
-def topmenu(command: str) -> dict:
-    """
-    topmenu is the top level loop of the course search app
-    """
-    global schedule
-    while True:
-        if command == 'quit':
-            ## return a render of home then,
-            return
-        elif command in ['h', 'help']:
-            ## change this to NOT return a render template
-            return '{}\n' + '-' * 40 + '\n\n'
-        elif command in ['r', 'reset']:
-            schedule.load_courses()
-            schedule = schedule.enrolled(range(5, 1000))
-        elif command in ['t', 'term']:
-            ##need to be able to get a term
-            ##maybe render a replaced!! input in html in the template/rerender the template
-            ##with render_template()
+    elif command in ['h', 'help']:
+        return render_template('results.html', target = (TOP_LEVEL_MENU).split(';'))
 
-            # query_text = request.form["query"]
-            term = input("enter a term:" + str(terms) + ":")
 
-            schedule = schedule.term([term]).sort('subject')
-        elif command in ['s', 'subject']:
-            ##do the same thing as 46
+    elif command in ['r', 'reset']:
+        schedule.load_courses()
+        schedule = schedule.enrolled(range(5, 1000))
+        return render_template('home.html', target=[])
 
-            # query_text = request.form["query"]
-            subject = input("enter a subject:")
 
-            schedule = schedule.subject([subject])
+    elif command in ['t', 'term']:
+        if filter!='':
+            schedule = schedule.subject(filter).sort('subject') ##filter by TERMS
+            filtered_terms = render_list()
+            res = ['courses has {} elements \n\n'.format(len(schedule.courses)), 'here are the first ten:', filtered_terms]
+            return render_template('results.html', target = res)  
         else:
-            ##different render 
-
-            print('command', command, 'is not supported')
+            return render_template('results.html', target = ['please choose from the following list:', terms])
 
 
-def print_course(course):
-    """
-    print_course prints a brief description of the course
-    """
-    ##this method will probably get deleted and migrated up
-    print(course['subject'], course['coursenum'], course['section'],
-          course['name'], course['term'], course['instructor'])
+    elif command in ['s', 'subject']:
+        if filter!='':
+            schedule = schedule.subject(filter).sort('subject')
+            filtered_subs = render_list()
+            res = ['courses has {} elements \n\n'.format(len(schedule.courses)), 'here are the first ten:', filtered_subs]
+            return render_template('results.html', target = res)  
+        else:
+            return render_template('results.html', target = ['please choose from the following list and renter it above with the s command:', subjects])
 
+    ##ADD IF STATMENTS TO HANDLE DIFFERENT COMMANDS HERE
+
+    else:
+        return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
 
 if __name__ == '__main__':
     topmenu()

@@ -23,7 +23,7 @@ class Schedule:
         for course in courses:
             course['instructor'] = tuple(course['instructor'])
             course['coinstructors'] = [tuple(f) for f in course['coinstructors']]
-        self.courses = tuple(courses)  # making it a tuple means it is immutable
+        self.courses = list(courses)  # making it a tuple means it is immutable
 
     def lastname(self, names):
         ''' lastname returns the courses by a particular instructor last name'''
@@ -48,6 +48,7 @@ class Schedule:
     def sort(self, field):
         if field == 'subject':
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))
+        ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
         else:
             print("can't sort by " + str(field) + " yet")
             return self

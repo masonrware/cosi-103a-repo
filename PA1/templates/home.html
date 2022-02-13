@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Washington Post Search</title>
+    <title>Brandeis Class Search</title>
 </head>
 <body>
 
-<h3>Washington Post Search</h3>
+<h3>Brandeis Class Search</h3>
 
 <form action="{{ url_for('results') }}" name="search" method="post">
-    <label for="query">Query:</label>
+    <label for="query">Command:</label>
     <input type="text" id="query" name="query" size=50>
+    <label for="specific">Filter:</label>
+    <input type="text" id="specific" name="specific" size=50>
     <input type="submit" value="Search">
 </form>
 
