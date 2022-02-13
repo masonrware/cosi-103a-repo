@@ -54,7 +54,7 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             res = ['courses has {} elements \n\n'.format(len(schedule.courses)), 'here are the first ten:', filtered_terms]
             return render_template('results.html', target = res)  
         else:
-            return render_template('results.html', target = ['please choose from the following list:', terms])
+            return render_template('results.html', target = ['please choose from the following list and re-enter it above with the t command:', terms])
 
 
     elif command in ['s', 'subject']:
@@ -64,7 +64,7 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             res = ['courses has {} elements \n\n'.format(len(schedule.courses)), 'here are the first ten:', filtered_subs]
             return render_template('results.html', target = res)  
         else:
-            return render_template('results.html', target = ['please choose from the following list and renter it above with the s command:', subjects])
+            return render_template('results.html', target = ['please choose from the following list and re-enter it above with the s command:', subjects])
 
     ##ADD IF STATMENTS TO HANDLE DIFFERENT COMMANDS HERE
 
