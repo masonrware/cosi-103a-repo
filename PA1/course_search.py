@@ -13,7 +13,7 @@ term (t),(filter by term);
 course (c),(filter by coursenum e.g. COSI 103a);
 instructor (i),(filter by instructor);
 subject (s),(filter by subject e.g. COSI or LALS);
-title (t),(filter by phrase in title);
+title (ti),(filter by phrase in title);
 description (d),(filter by phrase in description);
 timeofday (td),(filter by day and time e.g. meets at 11 on Wed);
 '''
