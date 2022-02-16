@@ -22,7 +22,8 @@ timeofday (td),(filter by day and time e.g. meets at 11 on Wed);
 def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
     terms = {c['term'] for c in schedule.courses}
     subjects = {c['subject'] for c in schedule.courses}
-    ##ADD FEATURE SETS HERE
+    title = {c['name'] for c in schedule.courses}
+    ##ADD MORE HERE
 
     def render_list() -> list:
         """
