@@ -22,8 +22,10 @@ timeofday (td),(filter by day and time e.g. meets at 11 on Wed);
 def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
     terms = {c['term'] for c in schedule.courses}
     subjects = {c['subject'] for c in schedule.courses}
-    title = {c['name'] for c in schedule.courses}
+    titles = {c['name'] for c in schedule.courses}
     ##ADD MORE HERE
+    times = {c['time'] for c in schedule.courses}
+
 
     def render_list() -> list:
         """
@@ -72,6 +74,29 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
     ##ADD IF STATMENTS TO HANDLE DIFFERENT COMMANDS HERE
+    elif command in ['ti', 'title']:
+        if filter!='':
+            schedule = schedule.title(titles).sort('title')
+            filtered_titles = render_list()
+            if len(filtered_titles)==0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} {} course \n\n'.format(len(schedule.courses), filtered_titles[0][0]), 'Here are the first 10:', filtered_titles]
+            return render_template('results.html', target = res)  
+        else:
+            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', titles])
+    elif command in ['td', 'times']:
+        if filter!='':
+            schedule = schedule.title(titles).sort('title')
+            filtered_times = render_list()
+            if len(filtered_times)==0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} {} course \n\n'.format(len(schedule.courses), filtered_times[0][0]), 'Here are the first 10:', filtered_times]
+            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', times])
+        else:
+            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', times])
+    
 
     else:
         return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
