@@ -31,7 +31,7 @@ class Schedule:
 
     def class_time(self, times):
         ''' returns the courses by a particular course time '''
-        return Schedule([course for course in self.courses if course['']])
+        return Schedule([course for course in self.courses if course['times'] in times])
 
     def title(self, titles):
         ''' returns the courses by a particular course title '''
@@ -60,8 +60,9 @@ class Schedule:
         elif field == 'term':
             return Schedule(sorted(self.courses, key=lambda course: course['term']))
         elif field == 'title':
-            return Schedule(sorted(self.courses, key=lambda course: course['title']))
+            return Schedule(sorted(self.courses, key=lambda course: course['name']))
+        elif field == 'times':
+            return Schedule(sorted(self.courses, key=lambda course: course['times']))
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
         else:
-            print("can't sort by " + str(field) + " yet")
-            return self
+            raise ValueError("Cannot sort the data set using {}".format(field))
