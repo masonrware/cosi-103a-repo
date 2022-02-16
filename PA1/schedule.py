@@ -29,6 +29,14 @@ class Schedule:
         ''' lastname returns the courses by a particular instructor last name'''
         return Schedule([course for course in self.courses if course['instructor'][1] in names])
 
+    def class_time(self, times):
+        ''' returns the courses by a particular course time '''
+        return Schedule([course for course in self.courses if course['']])
+
+    def title(self, titles):
+        ''' returns the courses by a particular course title '''
+        return Schedule([course for course in self.courses if course['name'] in titles])
+
     def email(self, emails):
         ''' email returns the courses by a particular instructor email'''
         return Schedule([course for course in self.courses if course['instructor'][2] in emails])
@@ -51,6 +59,8 @@ class Schedule:
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))
         elif field == 'term':
             return Schedule(sorted(self.courses, key=lambda course: course['term']))
+        elif field == 'title':
+            return Schedule(sorted(self.courses, key=lambda course: course['title']))
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
         else:
             print("can't sort by " + str(field) + " yet")
