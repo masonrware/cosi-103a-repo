@@ -24,7 +24,7 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
     subjects = {c['subject'] for c in schedule.courses}
     titles = {c['name'] for c in schedule.courses}
     ##ADD MORE HERE
-    times = {c['time'] for c in schedule.courses}
+    times = [c['times'] for c in schedule.courses] ##filter out duplicates and empties
 
 
     def render_list() -> list:
@@ -57,8 +57,6 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
                 res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filtered_terms[0][0]), 'Here are the first 10:', filtered_terms]
-            
-            res = ['There are {} courses in term: {} \n\n'.format(len(schedule.courses), filtered_terms[0][4]), 'Here are the first 10:', filtered_terms]
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
@@ -73,7 +71,6 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
-    ##ADD IF STATMENTS TO HANDLE DIFFERENT COMMANDS HERE
     elif command in ['ti', 'title']:
         if filter!='':
             schedule = schedule.title(titles).sort('title')
@@ -85,16 +82,21 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', titles])
-    elif command in ['td', 'times']:
+    elif command in ['td', 'timeofday']:
         if filter!='':
-            schedule = schedule.title(titles).sort('title')
+            ##here is where we need to reformat
+            ##INTO A LIST OF A SINGLE DICTIONARY WITH FIELDS/KEYS: ('days', 'end', 'start')
+            schedule = schedule.class_time(times).sort('title')
             filtered_times = render_list()
             if len(filtered_times)==0:
-                res = ['{} is not a supported filter :('.format(filter)]
+                res = ['{} is not a supported filster :('.format(filter)]
             else:
                 res = ['There are {} {} course \n\n'.format(len(schedule.courses), filtered_times[0][0]), 'Here are the first 10:', filtered_times]
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', times])
+            return render_template('results.html', target = res)
         else:
+            ##create a new list of concatenated versions of each item in the gloabal terms set via list comprehension to pass in to be displayed
+            ##!!!ONCE ITS PASSED BACK USER WILL ENTER PRETTY VERSION
+            ##so we need to handle that as well by creating a new dictionary item to search by 
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', times])
     
 
