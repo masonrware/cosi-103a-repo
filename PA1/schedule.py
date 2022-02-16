@@ -45,6 +45,7 @@ class Schedule:
         ''' subject filters the courses by subject '''
         return Schedule([course for course in self.courses if course['subject'] in subjects])
 
+    ##WE NEED TO MAKE SURE THAT ALL OF THE ABOVE METHODS HAVE HANDELING BOTH BELOW AND IN COURSE_SECTION.PY
     def sort(self, field):
         if field == 'subject':
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))

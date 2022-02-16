@@ -9,7 +9,7 @@ from flask import Flask, render_template, request
 TOP_LEVEL_MENU = '''
 quit (q),; 
 reset (r),;
-term (t),(filter by term);
+term (t),(filte`r by term);
 course (c),(filter by coursenum e.g. COSI 103a);
 instructor (i),(filter by instructor);
 subject (s),(filter by subject e.g. COSI or LALS);
@@ -22,7 +22,7 @@ timeofday (td),(filter by day and time e.g. meets at 11 on Wed);
 def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
     terms = {c['term'] for c in schedule.courses}
     subjects = {c['subject'] for c in schedule.courses}
-    ##ADD MORE HERE
+    ##ADD FEATURE SETS HERE
 
     def render_list() -> list:
         """
@@ -50,7 +50,12 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
         if filter!='':
             schedule = schedule.term(filter).sort('term')
             filtered_terms = render_list()
-            res = ['There are {} courses in term: {} \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_terms]
+            if len(filtered_terms) == 0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filtered_terms[0][0]), 'Here are the first 10:', filtered_terms]
+            
+            res = ['There are {} courses in term: {} \n\n'.format(len(schedule.courses), filtered_terms[0][4]), 'Here are the first 10:', filtered_terms]
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
@@ -58,7 +63,10 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
         if filter!='':
             schedule = schedule.subject(filter).sort('subject')
             filtered_subs = render_list()
-            res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_subs]
+            if len(filtered_subs) == 0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filtered_subs[0][0]), 'Here are the first 10:', filtered_subs]
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])

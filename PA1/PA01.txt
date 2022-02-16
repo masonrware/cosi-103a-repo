@@ -43,6 +43,7 @@ IMPORTANT: before you commit your changes to the Jupyter notebook file, make sur
 What and How to submit
    1. add a link to your shared repository to the team page
    2. each team member should make their own short Zoom recording (about 1-5 minutes) stored in the cloud, showing mastery of the following six skills
+   
    1. running the Jupyter notebook and pointing out the code that they wrote, also show that you can create a markdown box, add text, and display it. (Jupyter)
    2. running the course_search.py app and showing the work that they did on the project and showing that their additions to the code do what they are supposed to do (PythonScript)
    3. showing the methods you wrote in the Schedule class (basic Python OOP)
