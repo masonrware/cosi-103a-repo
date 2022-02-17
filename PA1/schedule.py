@@ -95,6 +95,14 @@ class Schedule:
         ''' coursenum filters the courses by coursenum '''
         return Schedule([course for course in self.courses if course['coursenum']==coursenum])
     
+    def description(self, phrase):
+        ''' phrase filters the coruses by a certain searching phrase '''
+        return Schedule([course for course in self.courses if phrase in course['description']])
+    
+    def title(self, titles):
+        ''' Returns the courses by a particular course title '''
+        return Schedule([course for course in self.courses if course['name'] in titles])
+    
     def sort(self, field):
         if field == 'subject':
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))
