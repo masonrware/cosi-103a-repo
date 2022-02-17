@@ -11,6 +11,8 @@ class Schedule:
     Schedule represent a list of Brandeis classes with operations for filtering
     """
 
+    #TODO implement lower casing and normalization on the comparison
+    
     def __init__(self, courses=()):
         ''' courses is a tuple of the courses being offered '''
         self.courses = courses
@@ -46,7 +48,6 @@ class Schedule:
         return res
 
     def class_end_time(self, endtime):
-        ''' returns the courses by a particular course time '''
         res = []
         for course in self.courses:
             for time_frame in course['times']:
@@ -77,10 +78,6 @@ class Schedule:
     def title(self, title):
         ''' returns the courses by a particular course title '''
         return Schedule([course for course in self.courses if course['name'] in title])
-    
-    def email(self, email):
-        ''' email returns the courses by a particular instructor email'''
-        return Schedule([course for course in self.courses if course['instructor'][2] in email])
 
     def term(self, term):
         ''' term returns the courses in a particular term '''
@@ -94,7 +91,9 @@ class Schedule:
         ''' subject filters the courses by subject '''
         return Schedule([course for course in self.courses if course['subject'] in subject])
 
-    ##WE NEED TO MAKE SURE THAT ALL OF THE ABOVE METHODS HAVE HANDELING BOTH BELOW AND IN COURSE_SECTION.PY
+    def coursenum(self, coursenum):
+        ''' coursenum filters the courses by coursenum '''
+        return Schedule([course for course in self.courses if course['coursenum']==coursenum])
     
     def sort(self, field):
         if field == 'subject':
@@ -103,6 +102,9 @@ class Schedule:
             return Schedule(sorted(self.courses, key=lambda course: course['term']))
         elif field == 'title':
             return Schedule(sorted(self.courses, key=lambda course: course['name']))
+        elif field == 'coursenum':
+            return Schedule(sorted(self.courses, key=lambda course: course['coursenum']))
+        #TODO:
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
 
         else:
