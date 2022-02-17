@@ -25,35 +25,77 @@ class Schedule:
             course['coinstructors'] = [tuple(f) for f in course['coinstructors']]
         self.courses = list(courses)  # making it a tuple means it is immutable
 
-    def lastname(self, names):
+    def lastname(self, name):
         ''' lastname returns the courses by a particular instructor last name'''
-        return Schedule([course for course in self.courses if course['instructor'][1] in names])
+        return Schedule([course for course in self.courses if course['instructor'][1] in name])
 
-    def class_time(self, times):
+    def class_start_time(self, starttime):
         ''' returns the courses by a particular course time '''
-        return Schedule([course for course in self.courses if course['times'] in times])
+        res = []
+        for course in self.courses:
+            for time_frame in course['times']:
+                if int(starttime)==time_frame['start']:
+                    res.append(course)
+        return Schedule(res)
 
-    def title(self, titles):
+    def get_all_start_times(self):
+        res = []
+        for course in self.courses:
+            for time_frame in course['times']:
+                res.append(time_frame['start'])
+        return res
+
+    def class_end_time(self, endtime):
+        ''' returns the courses by a particular course time '''
+        res = []
+        for course in self.courses:
+            for time_frame in course['times']:
+                if int(endtime)==time_frame['end']:
+                    res.append(course)
+        
+        return Schedule((res))
+
+    def get_all_end_times(self):
+        res = []
+        for course in self.courses:
+            for time_frame in course['times']:
+                res.append(time_frame['end'])
+        return res
+
+    def class_days(self, days):
+        res = []
+        for course in self.courses:
+            for time_frame in course['times']:
+                if set(days).issubset(set(time_frame['days'])):
+                    res.append(course)
+        return Schedule((res))
+
+    def compare_time_dict(self, times: list, target: list):
+        ''' compares a list of time dicts against another given time dict '''
+        pass
+
+    def title(self, title):
         ''' returns the courses by a particular course title '''
-        return Schedule([course for course in self.courses if course['name'] in titles])
-
-    def email(self, emails):
+        return Schedule([course for course in self.courses if course['name'] in title])
+    
+    def email(self, email):
         ''' email returns the courses by a particular instructor email'''
-        return Schedule([course for course in self.courses if course['instructor'][2] in emails])
+        return Schedule([course for course in self.courses if course['instructor'][2] in email])
 
-    def term(self, terms):
-        ''' email returns the courses in a list of term'''
-        return Schedule([course for course in self.courses if course['term'] in terms])
+    def term(self, term):
+        ''' term returns the courses in a particular term '''
+        return Schedule([course for course in self.courses if course['term'] in term])
 
-    def enrolled(self, vals):
+    def enrolled(self, val):
         ''' enrolled filters for enrollment numbers in the list of vals'''
-        return Schedule([course for course in self.courses if course['enrolled'] in vals])
+        return Schedule([course for course in self.courses if course['enrolled'] in val])
 
-    def subject(self, subjects):
+    def subject(self, subject):
         ''' subject filters the courses by subject '''
-        return Schedule([course for course in self.courses if course['subject'] in subjects])
+        return Schedule([course for course in self.courses if course['subject'] in subject])
 
     ##WE NEED TO MAKE SURE THAT ALL OF THE ABOVE METHODS HAVE HANDELING BOTH BELOW AND IN COURSE_SECTION.PY
+    
     def sort(self, field):
         if field == 'subject':
             return Schedule(sorted(self.courses, key=lambda course: course['subject']))
@@ -61,8 +103,7 @@ class Schedule:
             return Schedule(sorted(self.courses, key=lambda course: course['term']))
         elif field == 'title':
             return Schedule(sorted(self.courses, key=lambda course: course['name']))
-        elif field == 'times':
-            return Schedule(sorted(self.courses, key=lambda course: course['times']))
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
+
         else:
             raise ValueError("Cannot sort the data set using {}".format(field))

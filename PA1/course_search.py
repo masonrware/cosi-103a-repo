@@ -3,29 +3,28 @@ course_search is a Python script using a terminal based menu to help
 students search for courses they might want to take at Brandeis
 """
 import schedule
-import sys
-from flask import Flask, render_template, request
+from flask import render_template
 
 TOP_LEVEL_MENU = '''
 quit (q),; 
 reset (r),;
-term (t),(filte`r by term);
+term (t),(filter by term);
 course (c),(filter by coursenum e.g. COSI 103a);
 instructor (i),(filter by instructor);
 subject (s),(filter by subject e.g. COSI or LALS);
 title (ti),(filter by phrase in title);
 description (d),(filter by phrase in description);
 timeofday (td),(filter by day and time e.g. meets at 11 on Wed);
+help (h),(displays this page);
 '''
 
-
-def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
+def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
     terms = {c['term'] for c in schedule.courses}
     subjects = {c['subject'] for c in schedule.courses}
     titles = {c['name'] for c in schedule.courses}
-    ##ADD MORE HERE
-    times = [c['times'] for c in schedule.courses] ##filter out duplicates and empties
-
+    starttimes = set(schedule.get_all_start_times())
+    endtimes = set(schedule.get_all_end_times())
+    ##ADD MORE HERE    
 
     def render_list() -> list:
         """
@@ -36,19 +35,22 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             res.append((c['subject'], c['coursenum'], c['section'], c['name'], c['term'], c['instructor']))
         return res
 
-
+    #QUIT
     if command in ['q', 'quit']:
         return render_template('home.html', target=[])
+    #HELP
     elif command in ['h', 'help']:
         msg = (TOP_LEVEL_MENU).split(';')
         cmd_fltr_dict = {}
         for command_index_pair in enumerate(msg):
             cmd_fltr_dict[command_index_pair[0]] = command_index_pair[1].split(',')
         return render_template('help.html', commands = cmd_fltr_dict)
+    #RESET
     elif command in ['r', 'reset']:
         schedule.load_courses()
         schedule = schedule.enrolled(range(5, 1000))
         return render_template('home.html', target=[])
+    #TERM
     elif command in ['t', 'term']:
         if filter!='':
             schedule = schedule.term(filter).sort('term')
@@ -56,10 +58,11 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             if len(filtered_terms) == 0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filtered_terms[0][0]), 'Here are the first 10:', filtered_terms]
+                res = ['There are {} courses in the term {} \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_terms]
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
+    #SUBJECT
     elif command in ['s', 'subject']:
         if filter!='':
             schedule = schedule.subject(filter).sort('subject')
@@ -71,34 +74,60 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
             return render_template('results.html', target = res)  
         else:
             return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
+    #TITLE
     elif command in ['ti', 'title']:
         if filter!='':
-            schedule = schedule.title(titles).sort('title')
+            schedule = schedule.title(filter).sort('title')
             filtered_titles = render_list()
             if len(filtered_titles)==0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} {} course \n\n'.format(len(schedule.courses), filtered_titles[0][0]), 'Here are the first 10:', filtered_titles]
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_titles]
             return render_template('results.html', target = res)  
         else:
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', titles])
+            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (title or ti) command:', titles])
+    #DATETIME
     elif command in ['td', 'timeofday']:
         if filter!='':
-            ##here is where we need to reformat
-            ##INTO A LIST OF A SINGLE DICTIONARY WITH FIELDS/KEYS: ('days', 'end', 'start')
-            schedule = schedule.class_time(times).sort('title')
-            filtered_times = render_list()
-            if len(filtered_times)==0:
-                res = ['{} is not a supported filster :('.format(filter)]
+            if(len(filter[0])!=0 or filter[1]!='' or filter[2]!=''):
+                if len(filter[0]) > 0:
+                    split_up_days = filter[0].split(',')
+                    split_up_days = [item.lower().strip() for item in split_up_days]
+                    schedule = schedule.class_days(split_up_days)
+                if filter[1] != '':
+                    schedule = schedule.class_start_time(filter[1])
+                if filter[2] != '':
+                    schedule = schedule.class_end_time(filter[2])
+                filtered_times = render_list()
+                if len(filtered_times)==0:
+                    res = ['No classes found for that combination :(']
+                else:
+                    if len(filter[0])>0:
+                        if filter[1]!='' and filter[2]!='':
+                            res = ['There are {} courses on {} that start at {} and end at {} \n\n'.format(len(schedule.courses), filter[0], filter[1], filter[2]), 'Here are the first 10:', filtered_times]
+                        elif filter[1]!='' and filter[2]=='':
+                            res = ['There are {} courses on {} that start at {} \n\n'.format(len(schedule.courses), filter[0], filter[1]), 'Here are the first 10:', filtered_times]
+                        elif filter[1]=='' and filter[2]!='':
+                            res = ['There are {} courses on {} that end at {} \n\n'.format(len(schedule.courses), filter[0], filter[2]), 'Here are the first 10:', filtered_times]
+                        else:
+                            res = ['There are {} courses on {}\n\n'.format(len(schedule.courses), filter[0]), 'Here are the first 10:', filtered_times]
+                    else:
+                        if filter[1]!='' and filter[2]!='':
+                            res = ['There are {} courses that start at {} and end at {} \n\n'.format(len(schedule.courses), filter[1], filter[2]), 'Here are the first 10:', filtered_times]
+                        elif filter[1]!='' and filter[2]=='':
+                            res = ['There are {} courses that start at {} \n\n'.format(len(schedule.courses), filter[1]), 'Here are the first 10:', filtered_times]
+                        elif filter[1]=='' and filter[2]!='':
+                            res = ['There are {} courses that end at {} \n\n'.format(len(schedule.courses), filter[2]), 'Here are the first 10:', filtered_times]
+                return render_template('coursetime.html', target = res)
             else:
-                res = ['There are {} {} course \n\n'.format(len(schedule.courses), filtered_times[0][0]), 'Here are the first 10:', filtered_times]
-            return render_template('results.html', target = res)
+                return render_template('coursetime.html', target = ['Please enter a Start Time, End Time, Days, or all above',  'start times: ', sorted(starttimes), 'end times:', sorted(endtimes)])
         else:
-            ##create a new list of concatenated versions of each item in the gloabal terms set via list comprehension to pass in to be displayed
-            ##!!!ONCE ITS PASSED BACK USER WILL ENTER PRETTY VERSION
-            ##so we need to handle that as well by creating a new dictionary item to search by 
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', times])
-    
+            return render_template('coursetime.html', target = ['Please enter a Start Time, End Time, Days, or all above', 'start times: ', sorted(starttimes), 'end times:', sorted(endtimes)])
+    #COURSENUM
+
+    #INSTRUCTOR
+
+    #DESCRIPTION
 
     else:
         return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
