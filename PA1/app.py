@@ -1,6 +1,4 @@
-from crypt import methods
 from flask import Flask, render_template, request
-# import math
 import course_search as search
 import schedule
 
@@ -25,7 +23,7 @@ def results() -> str:
     result page
     :return:
     """
-    query_text = request.form["query"]  # Get the raw user query from home page
+    query_text = request.form["query"]
     specific_text = request.form['specific']
     return search.topmenu(query_text, specific_text, schedule)
 
@@ -33,7 +31,8 @@ def results() -> str:
 @app.route('/courseTimes', methods=["POST"])
 def course_times() -> str:
     """
-    
+    page for using the td command
+    :return:
     """
     query_text = request.form['query']
     alt_data = [request.form['days'], request.form['start'], request.form['end']]

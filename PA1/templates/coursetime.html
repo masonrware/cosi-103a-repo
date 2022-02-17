@@ -27,11 +27,11 @@
     {% if target|length>0 %}
         {% for res in target %}
             {% if res is iterable and (res is not string and res is not mapping) %}
-            <ol>
+            <ul>
                 {% for item in res %}
                     <li>{{ item }}</li>
                 {% endfor %}
-            </ol>
+            </ul>
             {% else %}
                 <h4>{{ res }}</h4>
             {% endif %}
