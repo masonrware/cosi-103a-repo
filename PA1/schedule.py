@@ -99,7 +99,7 @@ class Schedule:
         ''' phrase filters the coruses by a certain searching phrase '''
         return Schedule([course for course in self.courses if phrase in course['description']])
     
-    def title(set1, titles):
+    def title(self, titles):
         ''' Returns the courses by a particular course title '''
         return Schedule([course for course in self.courses if course['name'] in titles])
     
