@@ -2,8 +2,8 @@
 course_search is a Python script using a terminal based menu to help
 students search for courses they might want to take at Brandeis
 """
-import schedule
 from flask import render_template
+import schedule
 
 TOP_LEVEL_MENU = '''
 quit (q),; 
@@ -19,25 +19,27 @@ help (h),(displays this page);
 '''
 
 def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
-    terms = {c['term'] for c in schedule.courses}
-    subjects = {c['subject'] for c in schedule.courses}
-    titles = {c['name'] for c in schedule.courses}
-    instructors = {c['instructor'] for c in schedule.courses}
-    description = {c['description'] for c in schedule.courses}
+    terms = {item['term'] for item in schedule.courses}
+    subjects = {item['subject'] for item in schedule.courses}
+    titles = {item['name'] for item in schedule.courses}
+    instructors = {item['instructor'] for item in schedule.courses}
+    description = {item['description'] for item in schedule.courses}
 
     starttimes = set(schedule.get_all_start_times())
     endtimes = set(schedule.get_all_end_times())
-    courses = set(c['coursenum'] for c in schedule.courses)
+    courses = set(item['coursenum'] for item in schedule.courses)
     #TODO:
-    ##ADD MORE HERE    
-    
+    ##ADD MORE HERE
+    #
     def render_list() -> list:
         """
-        returns a list of classes with specified fields: (subject, coursenum, section, name, term, instructor)
+        returns a list of classes with specified fields:
+        (subject, coursenum, section, name, term, instructor)
         """
         res = []
-        for c in schedule.courses[:10]:
-            res.append((c['subject'], c['coursenum'], c['section'], c['name'], c['term'], c['instructor']))
+        for item in schedule.courses[:10]:
+            res.append((item['subject'], item['coursenum'], item['section'],
+            item['name'], item['term'], item['instructor']))
         return res
 
     #QUIT
@@ -63,10 +65,12 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
             if len(filtered_terms) == 0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} courses in the term {} \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_terms]
-            return render_template('results.html', target = res) 
+                res = ['There are {} courses in the term {} \n\n'.format(len(schedule.courses),
+                 filter), 'Here are the first 10:', filtered_terms]
+            return render_template('results.html', target = res)
         else:
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (term or t) command(s):', terms])
     #SUBJECT
     elif command in ['s', 'subject']:
         if filter!='':
@@ -75,10 +79,12 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
             if len(filtered_subs) == 0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filtered_subs[0][0]), 'Here are the first 10:', filtered_subs]
-            return render_template('results.html', target = res)  
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), 
+                filtered_subs[0][0]), 'Here are the first 10:', filtered_subs]
+            return render_template('results.html', target = res)
         else:
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (subject or s) command:', subjects])
     #TITLE
     elif command in ['ti', 'title']:
         if filter!='':
@@ -87,10 +93,13 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
             if len(filtered_titles)==0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filter), 'Here are the first 10:', filtered_titles]
-            return render_template('results.html', target = res)  
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), filter),
+                'Here are the first 10:', filtered_titles]
+            return render_template('results.html', target = res)
         else:
-            return render_template('results.html', target = ['Please choose from the following list and re-enter it above with the (title or ti) command:', titles])
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (title or ti) command:',
+            titles])
     #DATETIME
     elif command in ['td', 'timeofday']:
         if filter!='':
@@ -109,25 +118,36 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
                 else:
                     if len(filter[0])>0:
                         if filter[1]!='' and filter[2]!='':
-                            res = ['There are {} courses on {} that start at {} and end at {} \n\n'.format(len(schedule.courses), filter[0], filter[1], filter[2]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {} that start at {} and end at {} \n\n'.format(len(schedule.courses),
+                            filter[0], filter[1], filter[2]), 'Here are the first 10:', filtered_times]
                         elif filter[1]!='' and filter[2]=='':
-                            res = ['There are {} courses on {} that start at {} \n\n'.format(len(schedule.courses), filter[0], filter[1]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {} that start at {} \n\n'.format(len(schedule.courses),
+                            filter[0], filter[1]),'Here are the first 10:', filtered_times]
                         elif filter[1]=='' and filter[2]!='':
-                            res = ['There are {} courses on {} that end at {} \n\n'.format(len(schedule.courses), filter[0], filter[2]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {} that end at {} \n\n'.format(len(schedule.courses), filter[0], filter[2]),
+                            'Here are the first 10:', filtered_times]
                         else:
-                            res = ['There are {} courses on {}\n\n'.format(len(schedule.courses), filter[0]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {}\n\n'.format(len(schedule.courses), filter[0]),
+                            'Here are the first 10:', filtered_times]
                     else:
                         if filter[1]!='' and filter[2]!='':
-                            res = ['There are {} courses that start at {} and end at {} \n\n'.format(len(schedule.courses), filter[1], filter[2]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses that start at {} and end at {} \n\n'.format
+                            (len(schedule.courses), filter[1], filter[2]), 'Here are the first 10:', filtered_times]
                         elif filter[1]!='' and filter[2]=='':
-                            res = ['There are {} courses that start at {} \n\n'.format(len(schedule.courses), filter[1]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses that start at {} \n\n'.format(len(schedule.courses), filter[1]),
+                            'Here are the first 10:', filtered_times]
                         elif filter[1]=='' and filter[2]!='':
-                            res = ['There are {} courses that end at {} \n\n'.format(len(schedule.courses), filter[2]), 'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses that end at {} \n\n'.format(len(schedule.courses), filter[2]),
+                            'Here are the first 10:', filtered_times]
                 return render_template('coursetime.html', target = res)
             else:
-                return render_template('coursetime.html', target = ['Please enter a Start Time, End Time, Days, or all above',  'start times: ', sorted(starttimes), 'end times:', sorted(endtimes)])
+                return render_template('coursetime.html', target =
+                ['Please enter a Start Time, End Time, Days, or all above',  'start times: ',
+                sorted(starttimes), 'end times:', sorted(endtimes)])
         else:
-            return render_template('coursetime.html', target = ['Please enter a Start Time, End Time, Days, or all above', 'start times: ', sorted(starttimes), 'end times:', sorted(endtimes)])
+            return render_template('coursetime.html', target =
+            ['Please enter a Start Time, End Time, Days, or all above', 'start times: ',
+            sorted(starttimes), 'end times:', sorted(endtimes)])
     #COURSENUM
     elif command in ['c', 'course']:
         if filter!='':
@@ -139,7 +159,8 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
                 res = ['There are {} courses with the number {}\n\n'.format(len(schedule.courses), filter), filtered_courses]
             return render_template('results.html', target = res)  
         else:
-            return render_template('results.html', target=['Please choose from the following list and re-enter it above with the (course or c) command:', courses])
+            return render_template('results.html', target=
+            ['Please choose from the following list and re-enter it above with the (course or c) command:', courses])
     #TODO: complete the below branches
     #INSTRUCTOR
     elif command in ['i', 'instructor']:
