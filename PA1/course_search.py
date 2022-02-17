@@ -23,6 +23,8 @@ def topmenu(command: str, filter: str, schedule: schedule.Schedule) -> str:
     terms = {c['term'] for c in schedule.courses}
     subjects = {c['subject'] for c in schedule.courses}
     titles = {c['name'] for c in schedule.courses}
+    instructors = {c['instructor'] for c in schedule.courses}
+    description = {c['description'] for c in schedule.courses}
     ##ADD MORE HERE
     times = [c['times'] for c in schedule.courses] ##filter out duplicates and empties
 

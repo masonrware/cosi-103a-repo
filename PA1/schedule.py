@@ -64,5 +64,11 @@ class Schedule:
         elif field == 'times':
             return Schedule(sorted(self.courses, key=lambda course: course['times']))
         ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
+        elif field == 'description':
+            return Schedule(sorted(self.courses, key=lambda course: course['description']))
+        elif field == 'instructor':
+            return Schedule(sorted(self.courses, key=lambda course: course['instructor']))
+
+
         else:
             raise ValueError("Cannot sort the data set using {}".format(field))
