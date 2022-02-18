@@ -173,6 +173,7 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
             return render_template('results.html', target =
             ['Please choose from the following list and re-enter it above with the (instructor or i) command(s):', instructor])
     #DESCRIPTION
+    #comment for video
     elif command in ['d', 'description']:
         if filter!='':
             schedule = schedule.description(filter).sort('description')
