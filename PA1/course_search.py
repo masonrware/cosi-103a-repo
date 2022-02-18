@@ -167,10 +167,17 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
         pass
     #DESCRIPTION
     elif command in ['d', 'description']:
-        pass
-    else:
-        return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
-
+        if filter!='':
+            schedule = schedule.description(filter).sort('description')
+            filtered_courses = render_list()
+            if len(filtered_courses) == 0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} courses that include the phrase {}\n\n'.format(len(schedule.courses), filter), filtered_courses]
+            return render_template('results.html', target = res)
+        else:
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (description or d) command:', subjects])
 
 if __name__ == '__main__':
     topmenu()
