@@ -178,6 +178,8 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
         else:
             return render_template('results.html', target =
             ['Please choose from the following list and re-enter it above with the (description or d) command:', subjects])
+    else:
+        return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
 
 if __name__ == '__main__':
     topmenu()
