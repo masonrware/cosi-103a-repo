@@ -94,11 +94,11 @@ class Schedule:
     
     def description(self, phrase):
         ''' phrase filters the courses by a certain searching phrase '''
-        return Schedule([course for course in self.courses if phrase in course['description']])
+        return Schedule([course for course in self.courses if course['description']==phrase]])
   
     def instructor(self, instructors):
         '''Returns the courses taught by a particular professor'''
-        return Schedule([course for course in self.courses if instructors in course['instructor']])
+        return Schedule([course for course in self.courses if course['instructor']==instructors])
     
     def sort(self, field):
         dict1 = {'subject', 'term', 'name', 'coursenum', 'description', 'instructor'}
