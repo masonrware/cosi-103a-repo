@@ -24,11 +24,10 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
     titles = {item['name'] for item in schedule.courses}
     instructor = {item['instructor'] for item in schedule.courses}
     description = {item['description'] for item in schedule.courses}
-
     starttimes = set(schedule.get_all_start_times())
     endtimes = set(schedule.get_all_end_times())
     courses = set(item['coursenum'] for item in schedule.courses)
-
+   
     def render_list() -> list:
         """
         returns a list of classes with specified fields:
