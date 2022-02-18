@@ -50,7 +50,7 @@ class Schedule:
             for time_frame in course['times']:
                 if int(endtime)==time_frame['end']:
                     res.append(course)
-        
+
         return Schedule((res))
 
     def get_all_end_times(self):
@@ -91,15 +91,15 @@ class Schedule:
     def coursenum(self, coursenum):
         ''' coursenum filters the courses by coursenum '''
         return Schedule([course for course in self.courses if course['coursenum']==coursenum])
-    
+
     def description(self, phrase):
         ''' phrase filters the courses by a certain searching phrase '''
-        return Schedule([course for course in self.courses if course['description']==phrase]])
-  
+        return Schedule([course for course in self.courses if course['description']==phrase])
+
     def instructor(self, instructors):
         '''Returns the courses taught by a particular professor'''
         return Schedule([course for course in self.courses if course['instructor']==instructors])
-    
+
     def sort(self, field):
         dict1 = {'subject', 'term', 'name', 'coursenum', 'description', 'instructor'}
         if field in dict1:

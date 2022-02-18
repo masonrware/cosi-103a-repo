@@ -27,7 +27,7 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
     starttimes = set(schedule.get_all_start_times())
     endtimes = set(schedule.get_all_end_times())
     courses = set(item['coursenum'] for item in schedule.courses)
-   
+
     def render_list() -> list:
         """
         returns a list of classes with specified fields:
@@ -131,8 +131,8 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
                             res = ['There are {} courses that start at {} and end at {} \n\n'.format
                             (len(schedule.courses), filter[1], filter[2]), 'Here are the first 10:', filtered_times]
                         elif filter[1]!='' and filter[2]=='':
-                            res = ['There are {} courses that start at {} \n\n'.format(len(schedule.courses), filter[1]),
-                            'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses that start at {} \n\n'.format(len(schedule.courses),
+                            filter[1]), 'Here are the first 10:', filtered_times]
                         elif filter[1]=='' and filter[2]!='':
                             res = ['There are {} courses that end at {} \n\n'.format(len(schedule.courses), filter[2]),
                             'Here are the first 10:', filtered_times]
