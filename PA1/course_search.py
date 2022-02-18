@@ -28,9 +28,7 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
     starttimes = set(schedule.get_all_start_times())
     endtimes = set(schedule.get_all_end_times())
     courses = set(item['coursenum'] for item in schedule.courses)
-    #TODO:
-    ##ADD MORE HERE
-    #
+
     def render_list() -> list:
         """
         returns a list of classes with specified fields:
@@ -79,7 +77,7 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
             if len(filtered_subs) == 0:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
-                res = ['There are {} {} courses \n\n'.format(len(schedule.courses), 
+                res = ['There are {} {} courses \n\n'.format(len(schedule.courses),
                 filtered_subs[0][0]), 'Here are the first 10:', filtered_subs]
             return render_template('results.html', target = res)
         else:
@@ -124,11 +122,11 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
                             res = ['There are {} courses on {} that start at {} \n\n'.format(len(schedule.courses),
                             filter[0], filter[1]),'Here are the first 10:', filtered_times]
                         elif filter[1]=='' and filter[2]!='':
-                            res = ['There are {} courses on {} that end at {} \n\n'.format(len(schedule.courses), filter[0], filter[2]),
-                            'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {} that end at {} \n\n'.format(len(schedule.courses),
+                            filter[0], filter[2]), 'Here are the first 10:', filtered_times]
                         else:
-                            res = ['There are {} courses on {}\n\n'.format(len(schedule.courses), filter[0]),
-                            'Here are the first 10:', filtered_times]
+                            res = ['There are {} courses on {}\n\n'.format(len(schedule.courses),
+                            filter[0]), 'Here are the first 10:', filtered_times]
                     else:
                         if filter[1]!='' and filter[2]!='':
                             res = ['There are {} courses that start at {} and end at {} \n\n'.format
@@ -157,11 +155,10 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
                 res = ['{} is not a supported filter :('.format(filter)]
             else:
                 res = ['There are {} courses with the number {}\n\n'.format(len(schedule.courses), filter), filtered_courses]
-            return render_template('results.html', target = res)  
+            return render_template('results.html', target = res)
         else:
             return render_template('results.html', target=
             ['Please choose from the following list and re-enter it above with the (course or c) command:', courses])
-    #TODO: complete the below branches
     #INSTRUCTOR
     elif command in ['i', 'instructor']:
         if filter!='':
@@ -193,7 +190,6 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
 
     else:
         return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
-
 
 if __name__ == '__main__':
     topmenu()
