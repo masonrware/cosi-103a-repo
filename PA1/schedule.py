@@ -96,12 +96,16 @@ class Schedule:
         return Schedule([course for course in self.courses if course['coursenum']==coursenum])
     
     def description(self, phrase):
-        ''' phrase filters the coruses by a certain searching phrase '''
+        ''' phrase filters the courses by a certain searching phrase '''
         return Schedule([course for course in self.courses if phrase in course['description']])
     
     def title(self, titles):
         ''' Returns the courses by a particular course title '''
         return Schedule([course for course in self.courses if course['name'] in titles])
+  
+    def instructor(self, instructors):
+        '''Returns the courses taught by a particular professor'''
+        return Schedule([course for course in self.courses if instructors in course['instructor']])
     
     def sort(self, field):
         if field == 'subject':
@@ -112,13 +116,10 @@ class Schedule:
             return Schedule(sorted(self.courses, key=lambda course: course['name']))
         elif field == 'coursenum':
             return Schedule(sorted(self.courses, key=lambda course: course['coursenum']))
-        #TODO:
-        ##HERE IS WHERE TO ADD ADDITIONAL FILTERS FOR THE SORT
         elif field == 'description':
             return Schedule(sorted(self.courses, key=lambda course: course['description']))
         elif field == 'instructor':
             return Schedule(sorted(self.courses, key=lambda course: course['instructor']))
-
 
         else:
             raise ValueError("Cannot sort the data set using {}".format(field))

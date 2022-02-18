@@ -22,7 +22,7 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
     terms = {item['term'] for item in schedule.courses}
     subjects = {item['subject'] for item in schedule.courses}
     titles = {item['name'] for item in schedule.courses}
-    instructors = {item['instructor'] for item in schedule.courses}
+    instructor = {item['instructor'] for item in schedule.courses}
     description = {item['description'] for item in schedule.courses}
 
     starttimes = set(schedule.get_all_start_times())
@@ -161,13 +161,35 @@ def topmenu(command: str, filter, schedule: schedule.Schedule) -> str:
         else:
             return render_template('results.html', target=
             ['Please choose from the following list and re-enter it above with the (course or c) command:', courses])
-    #TODO: complete the below branches
-    #INSTRUCTOR
+    #Instructor
     elif command in ['i', 'instructor']:
-        pass
+        if filter!='':
+            schedule = schedule.instructor(filter).sort('instructor')
+            filtered_instructor = render_list()
+            if len(filtered_instructor) == 0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} courses in the term {} \n\n'.format(len(schedule.courses),
+                 filter), 'Here are the first 10:', filtered_instructor]
+            return render_template('results.html', target = res)
+        else:
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (instructor or i) command(s):', instructor])
     #DESCRIPTION
     elif command in ['d', 'description']:
-        pass
+        if filter!='':
+            schedule = schedule.description(filter).sort('description')
+            filtered_description = render_list()
+            if len(filtered_description) == 0:
+                res = ['{} is not a supported filter :('.format(filter)]
+            else:
+                res = ['There are {} courses in the term {} \n\n'.format(len(schedule.courses),
+                 filter), 'Here are the first 10:', filtered_description]
+            return render_template('results.html', target = res)
+        else:
+            return render_template('results.html', target =
+            ['Please choose from the following list and re-enter it above with the (description or d) command(s):', description])
+
     else:
         return render_template('results.html', target = ['{} is not supported as a command :('.format(command)])
 
