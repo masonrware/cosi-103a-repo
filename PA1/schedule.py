@@ -71,10 +71,6 @@ class Schedule:
                     res.append(course)
         return Schedule((res))
 
-    def compare_time_dict(self, times: list, target: list):
-        ''' compares a list of time dicts against another given time dict '''
-        pass
-
     def title(self, title):
         ''' returns the courses by a particular course title '''
         return Schedule([course for course in self.courses if course['name'] in title])
