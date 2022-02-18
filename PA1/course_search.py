@@ -200,7 +200,5 @@ def topmenu(command: str, filter, schedule: 'schedule.Schedule') -> str:
     else:
         return render_template('results.html', target = ['{} is not supported as a command :('
                                 .format(command)])
+## Kevin was here
 
-
-if __name__ == '__main__':
-    topmenu()
