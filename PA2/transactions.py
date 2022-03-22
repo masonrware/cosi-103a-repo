@@ -9,12 +9,12 @@ def to_cat_dict_list(cat_tuples):
     ''' convert a list of transaction tuples into a list of dictionaries'''
     return [to_cat_dict(cat) for cat in cat_tuples]
 
-class Transactions:
+class Transaction:
     def __init__(self, dbfile):
         con= sqlite3.connect(dbfile)
         cur = con.cursor()
         cur.execute('''CREATE TABLE IF NOT EXISTS transactions
-                    (item # INT, amount INT, category text, date text, desc text)''')
+                    (item INT, amount INT, category text, date text, desc text)''')
         con.commit()
         con.close()
         self.dbfile = dbfile
