@@ -57,26 +57,55 @@ menu = '''
 '''
 
 def process_choice(choice):
-    '''This is the top level function of the program, it works to process the given choice and call functions with an object of data representation.'''
+    '''This is the top level function of the program, it works to 
+    process the given choice and call functions with an object of 
+    data representation.'''
     if choice=='0':
+        '''quit program'''
         return
     elif choice=='1':
+        '''show all categories'''
         cats = category.select_all()
         print_categories(cats)
     elif choice=='2':
+        '''add a category'''
         name = input("category name: ")
         desc = input("category description: ")
         cat = {'name':name, 'desc':desc}
         category.add(cat)
     elif choice=='3':
+        '''modify a given category'''
         print("modifying category")
         rowid = int(input("rowid: "))
         name = input("new category name: ")
         desc = input("new category description: ")
         cat = {'name':name, 'desc':desc}
         category.update(rowid,cat)
-    else:
-        print("choice",choice,"not yet implemented")
+    elif choice=='4':
+        '''show all transactions'''
+        raise NotImplementedError
+    elif choice=='5':
+        '''add a transaction'''
+        raise NotImplementedError
+    elif choice=='6':
+        '''delete a given transaction'''
+        raise NotImplementedError
+    elif choice=='7':
+        '''summarize transactions by day'''
+        raise NotImplementedError
+    elif choice=='8':
+        '''summarize transactions by month'''
+        raise NotImplementedError
+    elif choice=='9':
+        '''summarize transactions by year'''
+        raise NotImplementedError
+    elif choice=='10':
+        '''summarize transactions by category'''
+        raise NotImplementedError
+    elif choice=='11':
+        '''print menu'''
+        print(menu)
+        
 
     choice = input("> ")
     return(choice)
@@ -91,6 +120,7 @@ def toplevel():
     while choice !='0' :
         choice = process_choice(choice)
     print('bye')
+    sys.exit(0)
 
 #
 # here are some helper functions
