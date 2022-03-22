@@ -35,7 +35,7 @@ from transactions import Transaction
 from category import Category
 import sys
 
-#transactions = Transaction('tracker.db')
+transactions = Transaction('tracker.db')
 category = Category('tracker.db')
 
 
@@ -83,10 +83,13 @@ def process_choice(choice):
         category.update(rowid,cat)
     elif choice=='4':
         '''show all transactions'''
-        raise NotImplementedError
+        trans = transactions.select_all()
+        print_transactions(trans)
     elif choice=='5':
         '''add a transaction'''
-        raise NotImplementedError
+        ##get fields of transaction
+        ##create dict obj of those fields
+        #transactions.add(cat)
     elif choice=='6':
         '''delete a given transaction'''
         raise NotImplementedError
