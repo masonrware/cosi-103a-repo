@@ -60,20 +60,20 @@ def process_choice(choice):
     '''This is the top level function of the program, it works to 
     process the given choice and call functions with an object of 
     data representation.'''
-    if choice==0:
+    if choice==0:                                                           #given
         '''quit program'''
         return
-    elif choice==1:
+    elif choice==1:                                                         #given
         '''show all categories'''
         cats = category.select_all()
         print_categories(cats)
-    elif choice==2:
+    elif choice==2:                                                         #given
         '''add a category'''
         name = input("category name: ")
         desc = input("category description: ")
         cat = {'name':name, 'desc':desc}
         category.add(cat)
-    elif choice==3:
+    elif choice==3:                                                         #given
         '''modify a given category'''
         print("modifying category")
         rowid = int(input("rowid: "))
@@ -81,31 +81,31 @@ def process_choice(choice):
         desc = input("new category description: ")
         cat = {'name':name, 'desc':desc}
         category.update(rowid,cat)
-    elif choice==4:
+    elif choice==4:                                                         #mason
         '''show all transactions'''
         trans = transactions.select_all()
         print_transactions(trans)
-    elif choice==5:
+    elif choice==5:                                                         #mason
         '''add a transaction'''
         ##get fields of transaction
         ##create dict obj of those fields
         #transactions.add(cat)
-    elif choice==6:
+    elif choice==6:                                                         #name
         '''delete a given transaction'''
         raise NotImplementedError
-    elif choice==7:
+    elif choice==7:                                                         #name
         '''summarize transactions by day'''
         raise NotImplementedError
-    elif choice==8:
+    elif choice==8:                                                         #name
         '''summarize transactions by month'''
         raise NotImplementedError
-    elif choice==9:
+    elif choice==9:                                                         #name
         '''summarize transactions by year'''
         raise NotImplementedError
-    elif choice==10:
+    elif choice==10:                                                        #name
         '''summarize transactions by category'''
         raise NotImplementedError
-    elif choice==11:
+    elif choice==11:                                                        #mason
         '''print menu'''
         print(menu)
         

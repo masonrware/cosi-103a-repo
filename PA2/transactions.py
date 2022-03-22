@@ -1,3 +1,11 @@
+#! usr/bin/python3
+
+#transactions.py
+#Version 1.0.0
+#3-22-22
+
+#Written By: Mason Ware
+
 import sqlite3
 
 def to_cat_dict(cat_tuple):
