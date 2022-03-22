@@ -31,7 +31,7 @@ could be replaced with PostgreSQL or Pandas or straight python lists
 
 '''
 
-#from transactions import Transaction
+from transactions import Transaction
 from category import Category
 import sys
 
@@ -56,11 +56,8 @@ menu = '''
 11. print this menu
 '''
 
-
-
-
 def process_choice(choice):
-
+    '''This is the top level function of the program, it works to process the given choice and call functions with an object of data representation.'''
     if choice=='0':
         return
     elif choice=='1':
