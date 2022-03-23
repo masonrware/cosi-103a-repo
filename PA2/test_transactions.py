@@ -1,5 +1,13 @@
+#! usr/bin/python3
+
+#test_transactions.py
+#Version 1.0.0
+#3-23-22
+
+#Written By: Mason Ware
+
 import pytest
-from transactions import Transaction, to_cat_dict
+from transactions import Transaction, to_trans_dict
 
 @pytest.fixture
 def dbfile(tmpdir):
@@ -8,17 +16,16 @@ def dbfile(tmpdir):
 
 @pytest.fixture
 def empty_db(dbfile):
-    ''' create an empty database '''
+    ''' create an category database '''
     db = Transaction(dbfile)
     yield db
-
-
+    
 @pytest.fixture
 def small_db(empty_db):
     ''' create a small database, and tear it down later'''
-    cat1 = {'item':'car','amount':100,'category':'auto','date':'3-22-22','desc':'car'}
-    cat2 = {'item':'plane','amount':200,'category':'flight','date':'3-23-22','desc':'plane'}
-    cat3 = {'item':'yacht','amount':300,'category':'boat','date':'3-24-22','desc':'boat'}
+    cat1 = {'item':'1','amount':100,'category':'auto','date':'03-22-22','desc':'car'}
+    cat2 = {'item':'2','amount':200,'category':'flight','date':'03-23-22','desc':'plane'}
+    cat3 = {'item':'3','amount':300,'category':'boat','date':'03-24-22','desc':'boat'}
     id1=empty_db.add(cat1)
     id2=empty_db.add(cat2)
     id3=empty_db.add(cat3)
@@ -52,9 +59,9 @@ def med_db(small_db):
 
 
 @pytest.mark.simple
-def test_to_cat_dict():
+def test_to_trans_dict():
     ''' teting the to_cat_dict function '''
-    a = to_cat_dict((7, 'alpha', 2, 'alpha', 'alpha', 'alpha'))
+    a = to_trans_dict((7, 'alpha', 2, 'alpha', 'alpha', 'alpha'))
     assert a['rowid']==7
     assert a['item']=='alpha'
     assert a['desc']=='alpha'
@@ -127,3 +134,9 @@ def test_update(med_db):
     # now we retrieve the category and check that it has changed
     cat2 = med_db.select_one(rowid)
     assert cat2['item']==cat1['item']
+
+@pytest.mark.select_date
+def test_select_date(med_db):
+    result_list = med_db.select_date('22')
+    assert result_list == [{'rowid': 1, 'item': 1, 'amount': 100, 'transaction': 'auto', 'date': '03-22-22', 'desc': 'car'}]
+    

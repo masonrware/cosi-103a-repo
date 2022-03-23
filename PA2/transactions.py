@@ -8,14 +8,14 @@
 
 import sqlite3
 
-def to_cat_dict(cat_tuple):
+def to_trans_dict(cat_tuple):
     ''' cat is a transaction tuple (rowid, name, desc)'''
     cat = {'rowid':cat_tuple[0], 'item':cat_tuple[1],'amount':cat_tuple[2], 'transaction':cat_tuple[3], 'date':cat_tuple[4], 'desc':cat_tuple[5]}
     return cat
 
-def to_cat_dict_list(cat_tuples):
+def to_trans_dict_list(cat_tuples):
     ''' convert a list of transaction tuples into a list of dictionaries'''
-    return [to_cat_dict(cat) for cat in cat_tuples]
+    return [to_trans_dict(cat) for cat in cat_tuples]
 
 class Transaction:
     def __init__(self, dbfile):
@@ -35,7 +35,7 @@ class Transaction:
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return to_cat_dict_list(tuples)
+        return to_trans_dict_list(tuples)
 
     def select_one(self,rowid):
         ''' return a transaction with a specified rowid '''
@@ -45,7 +45,7 @@ class Transaction:
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return to_cat_dict(tuples[0])
+        return to_trans_dict(tuples[0])
 
     def add(self,item):
         ''' add a transaction to the transactions table.
@@ -53,7 +53,7 @@ class Transaction:
         con= sqlite3.connect(self.dbfile)
         cur = con.cursor()
         ##below needs changing of the fields
-        cur.execute("INSERT INTO transactions VALUES(?,?,?,?,?)",(item['item'],item['amount'], item['category'], item['date'], item['desc']))
+        cur.execute("INSERT INTO transactions VALUES(?,?,?,?,?)",(item['item'], item['amount'], item['category'], item['date'], item['desc']))
         
         con.commit()
         cur.execute("SELECT last_insert_rowid()")
@@ -66,7 +66,6 @@ class Transaction:
         ''' update a transaction in the transactions table.  '''
         con= sqlite3.connect(self.dbfile)
         cur = con.cursor()
-        ##below needs changing of the fields
         cur.execute('''UPDATE transactions
                         SET item=(?), amount=(?),category=(?),date=(?),desc=(?)
                         WHERE rowid=(?);
@@ -86,3 +85,14 @@ class Transaction:
         
         con.commit()
         con.close()
+        
+    def select_date(self,date):
+        '''select a transaction by date'''
+        con= sqlite3.connect(self.dbfile)
+        cur = con.cursor()
+        cur.execute('''SELECT rowid,* from transactions
+                    where SUBSTR(date, 4, 2)=(?)''',(date,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list(tuples)

@@ -1,4 +1,12 @@
-#! /opt/miniconda3/bin/python3
+#!usr/bin/python3
+
+#tracker.py
+#Version 1.5.0
+#3-23-22
+
+#Written By: Mason Ware
+
+
 '''
 tracker is an app that maintains a list of personal
 financial transactions.
@@ -37,6 +45,7 @@ import sys
 
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
+item_num = 0
 
 menu = '''
 0. quit
@@ -58,52 +67,63 @@ def process_choice(choice):
     '''This is the top level function of the program, it works to 
     process the given choice and call functions with an object of 
     data representation.'''
-    if choice==0:                                                           #given
+    if choice=='0':                                                           #given
         '''quit program'''
         return
-    elif choice==1:                                                         #given
+    elif choice=='1':                                                         #given
         '''show all categories'''
         cats = category.select_all()
         print_categories(cats)
-    elif choice==2:                                                         #given
+    elif choice=='2':                                                         #given
         '''add a category'''
-        name = input("category name: ")
-        desc = input("category description: ")
-        cat = {'name':name, 'desc':desc}
+        cat_name = input("category name: ")
+        cat_desc = input("category description: ")
+        cat = {'name':cat_name, 'desc':cat_desc}
         category.add(cat)
-    elif choice==3:                                                         #given
+    elif choice=='3':                                                         #given
         '''modify a given category'''
-        print("modifying category")
         rowid = int(input("rowid: "))
-        name = input("new category name: ")
-        desc = input("new category description: ")
-        cat = {'name':name, 'desc':desc}
+        new_name = input("new category name: ")
+        new_desc = input("new category description: ")
+        cat = {'name':new_name, 'desc':new_desc}
         category.update(rowid,cat)
-    elif choice==4:                                                         #mason
+    elif choice=='4':                                                         #mason
         '''show all transactions'''
         trans = transactions.select_all()
         print_transactions(trans)
-    elif choice==5:                                                         #mason
+    elif choice=='5':                                                         #mason
         '''add a transaction'''
-        ##get fields of transaction
-        ##create dict obj of those fields
-        #transactions.add(cat)
-    elif choice==6:                                                         #name
+        trans_amount = float(input('transaction amount: '))
+        trans_category = input('transaction category: ')
+        trans_date = input('transaction date (MM-DD-YY): ')
+        trans_desc = input('transaction description: ')
+        global item_num
+        item_num+=1
+        new_trans = {'item': item_num,
+                     'amount': trans_amount,
+                     'category': trans_category,
+                     'date': trans_date,
+                     'desc': trans_desc
+                     }
+        transactions.add(new_trans)
+    elif choice=='6':                                                         #name
         '''delete a given transaction'''
         raise NotImplementedError
-    elif choice==7:                                                         #name
+    elif choice=='7':                                                         #mason
         '''summarize transactions by day'''
-        raise NotImplementedError
-    elif choice==8:                                                         #name
+        input_date = input('Filter Date > ')
+        trans = transactions.select_date(input_date)
+        print_transactions(trans)
+    elif choice=='8':                                                         #name
         '''summarize transactions by month'''
         raise NotImplementedError
-    elif choice==9:                                                         #name
+    elif choice=='9':                                                         #name
         '''summarize transactions by year'''
         raise NotImplementedError
-    elif choice==10:                                                        #name
+    elif choice=='10':                                                        #name
         '''summarize transactions by category'''
         raise NotImplementedError
-    elif choice==11:                                                        #mason
+    elif choice=='11':                                                        #mason
         '''print menu'''
         print(menu)
         
@@ -117,7 +137,7 @@ def toplevel():
         read the command args and process them (psuedo)'''
     print(menu)
     choice = input("> ")
-    while choice != 0:
+    while choice != '0':
         choice = process_choice(choice)
     print('='*50 + '\nBye! :)\n\n')
     sys.exit(0)
@@ -134,12 +154,12 @@ def print_transactions(items):
         print('no items to print')
         return
     print('\n')
-    print("%-10s %-10d %-10s %-10d %-30s"%(
-        'item #','amount','category','date','description'))
+    print("%-10s %-10s %-10s %-10s %-30s"%(
+        'item','amount','category','date','description'))
     print('-'*40)
     for item in items:
         values = tuple(item.values()) 
-        print("%-10s %-10d %-10s %-10d %-30s"%values)
+        print("%-10s %-10d %-10s %-10s %-30s"%values[1:])
 
 #given
 def print_category(cat):
