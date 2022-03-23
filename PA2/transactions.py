@@ -4,8 +4,6 @@
 #Version 1.0.0
 #3-22-22
 
-#Written By: Mason Ware
-
 import sqlite3
 
 def to_trans_dict(cat_tuple):
@@ -86,6 +84,7 @@ class Transaction:
         con.commit()
         con.close()
         
+    #mason
     def select_date(self,date):
         '''select a transaction by date'''
         con= sqlite3.connect(self.dbfile)

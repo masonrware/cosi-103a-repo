@@ -135,8 +135,14 @@ def test_update(med_db):
     cat2 = med_db.select_one(rowid)
     assert cat2['item']==cat1['item']
 
+#mason
 @pytest.mark.select_date
 def test_select_date(med_db):
     result_list = med_db.select_date('22')
-    assert result_list == [{'rowid': 1, 'item': 1, 'amount': 100, 'transaction': 'auto', 'date': '03-22-22', 'desc': 'car'}]
-    
+    assert result_list == [{'rowid': 1, 
+                            'item': 1, 
+                            'amount': 100, 
+                            'transaction': 'auto', 
+                            'date': '03-22-22', 
+                            'desc': 'car'}]
+
