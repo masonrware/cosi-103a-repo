@@ -38,9 +38,6 @@ import sys
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
 
-
-# here is the menu for the tracker app
-
 menu = '''
 0. quit
 1. show categories
@@ -56,6 +53,7 @@ menu = '''
 11. print this menu
 '''
 
+#given
 def process_choice(choice):
     '''This is the top level function of the program, it works to 
     process the given choice and call functions with an object of 
@@ -113,11 +111,10 @@ def process_choice(choice):
     choice = input("> ")
     return(choice)
 
-
+#given
 def toplevel():
-    ''' handle the user's choice '''
-
-    ''' read the command args and process them (psuedo)'''
+    ''' handle the user's choice 
+        read the command args and process them (psuedo)'''
     print(menu)
     choice = input("> ")
     while choice != 0:
@@ -125,10 +122,12 @@ def toplevel():
     print('='*50 + '\nBye! :)\n\n')
     sys.exit(0)
 
-#
-# here are some helper functions
-#
 
+
+
+##HELPER FUNCTIONS
+
+#given
 def print_transactions(items):
     ''' print the transactions '''
     if len(items)==0:
@@ -142,9 +141,11 @@ def print_transactions(items):
         values = tuple(item.values()) 
         print("%-10s %-10d %-10s %-10d %-30s"%values)
 
+#given
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
 
+#given
 def print_categories(cats):
     print("%-3s %-10s %-30s"%("id","name","description"))
     print('-'*45)
@@ -152,7 +153,9 @@ def print_categories(cats):
         print_category(cat)
 
 
-# here is the main call!
 
-toplevel()
 
+##DRIVER
+
+if __name__ == '__main__':
+    toplevel()
