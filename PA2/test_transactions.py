@@ -26,7 +26,7 @@ def small_db(empty_db):
     cat1 = {'item':'1','amount':100,'category':'auto','date':'03-22-22','desc':'car'}
     cat2 = {'item':'2','amount':200,'category':'flight','date':'03-23-22','desc':'plane'}
     cat3 = {'item':'3','amount':300,'category':'boat','date':'03-24-22','desc':'boat'}
-    cat4 = {'item':'4','amount':300,'category':'boat','date':'04-24-22','desc':'boat'}
+    cat4 = {'item':'4','amount':300,'category':'boat','date':'04-24-23','desc':'boat'}
     id1=empty_db.add(cat1)
     id2=empty_db.add(cat2)
     id3=empty_db.add(cat3)
@@ -154,6 +154,7 @@ def test_select_date(med_db):
 @pytest.mark.select_month
 def test_select_month(med_db):
     result_list = med_db.select_month('03')
+    assert len(result_list) == 3
     assert result_list == [{'rowid': 1, 
                             'item': 1, 
                             'amount': 100, 
@@ -173,5 +174,17 @@ def test_select_month(med_db):
                             'date':'03-24-22',
                             'desc':'boat'}]
     assert [{'rowid': 1,'item': 4, 
-            'transaction':'boat','date':'04-24-22',
-            'desc':'boat'}] not in result_list 
+            'transaction':'boat','date':'04-24-23',
+            'desc':'boat'}] not in result_list
+
+#Kayla
+@pytest.mark.select_year
+def test_select_year(med_db):
+    result_list = med_db.select_year('23')
+    assert len(result_list) == 1
+    assert result_list == [{'rowid': 4, 
+                            'item': 4, 
+                            'amount':300,
+                            'transaction':'boat',
+                            'date':'04-24-23',
+                            'desc':'boat'}]

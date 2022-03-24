@@ -34,14 +34,13 @@ In place of SQL queries, we will have method calls.
 
 This app will store the data in a SQLite database ~/tracker.db
 
-Note the actual implementation of the ORM is hidden and so it 
+Note the actual implementation of the ORM is hidden and so it
 could be replaced with PostgreSQL or Pandas or straight python lists
 
 '''
-
+import sys
 from transactions import Transaction
 from category import Category
-import sys
 
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
@@ -64,8 +63,8 @@ menu = '''
 
 #given
 def process_choice(choice):
-    '''This is the top level function of the program, it works to 
-    process the given choice and call functions with an object of 
+    '''This is the top level function of the program, it works to
+    process the given choice and call functions with an object of
     data representation.'''
     if choice=='0':                                                           #given
         '''quit program'''
@@ -119,23 +118,24 @@ def process_choice(choice):
         input_month = input('Filter Month > ')
         trans = transactions.select_month(input_month)
         print_transactions(trans)
-    elif choice=='9':                                                         #name
+    elif choice=='9':                                                         #Kayla
         '''summarize transactions by year'''
-        raise NotImplementedError
+        input_year = input('Filter Year > ')
+        trans = transactions.select_year(input_year)
+        print_transactions(trans)
     elif choice=='10':                                                        #name
         '''summarize transactions by category'''
         raise NotImplementedError
     elif choice=='11':                                                        #mason
         '''print menu'''
         print(menu)
-        
 
     choice = input("> ")
-    return(choice)
+    return choice
 
 #given
 def toplevel():
-    ''' handle the user's choice 
+    ''' handle the user's choice
         read the command args and process them (psuedo)'''
     print(menu)
     choice = input("> ")
@@ -160,15 +160,17 @@ def print_transactions(items):
         'item','amount','category','date','description'))
     print('-'*40)
     for item in items:
-        values = tuple(item.values()) 
+        values = tuple(item.values())
         print("%-10s %-10d %-10s %-10s %-30s"%values[1:])
 
 #given
 def print_category(cat):
+    '''prints a single category'''
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
 
 #given
 def print_categories(cats):
+    '''prints all categories'''
     print("%-3s %-10s %-30s"%("id","name","description"))
     print('-'*45)
     for cat in cats:
