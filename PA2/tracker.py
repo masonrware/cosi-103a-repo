@@ -116,7 +116,7 @@ def process_choice(choice):
         print_transactions(trans)
     elif choice=='8':                                                         #Kayla
         '''summarize transactions by month'''
-        input_month = input('Filter Date > ')
+        input_month = input('Filter Month > ')
         trans = transactions.select_month(input_month)
         print_transactions(trans)
     elif choice=='9':                                                         #name
