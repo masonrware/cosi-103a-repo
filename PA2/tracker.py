@@ -107,7 +107,9 @@ def process_choice(choice):
         transactions.add(new_trans)
     elif choice=='6':                                                         #name
         '''delete a given transaction'''
-        raise NotImplementedError
+        del_rowid = input('rowid > ')
+        transactions.delete(del_rowid)
+        print('Transaction deleted successfully!')
     elif choice=='7':                                                         #mason
         '''summarize transactions by day'''
         input_date = input('Filter Date > ')
