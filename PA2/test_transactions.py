@@ -75,7 +75,6 @@ def test_to_trans_dict():
 @pytest.mark.add
 def test_add(med_db):
     ''' add a category to db, the select it, then delete it'''
-
     cat0 = {'item':'testing_item',
             'amount':6666.666,
             'category':'testing_cat',
