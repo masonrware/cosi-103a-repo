@@ -95,3 +95,15 @@ class Transaction:
         con.commit()
         con.close()
         return to_trans_dict_list(tuples)
+    
+    #Kayla
+    def select_month(self, month):
+        '''select a transaction by date'''
+        con= sqlite3.connect(self.dbfile)
+        cur = con.cursor()
+        cur.execute('''SELECT rowid,* from transactions
+                    where SUBSTR(date, 1, 2)=(?)''',(month,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list(tuples)

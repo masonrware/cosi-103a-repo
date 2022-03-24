@@ -26,13 +26,17 @@ def small_db(empty_db):
     cat1 = {'item':'1','amount':100,'category':'auto','date':'03-22-22','desc':'car'}
     cat2 = {'item':'2','amount':200,'category':'flight','date':'03-23-22','desc':'plane'}
     cat3 = {'item':'3','amount':300,'category':'boat','date':'03-24-22','desc':'boat'}
+    cat4 = {'item':'4','amount':300,'category':'boat','date':'04-24-22','desc':'boat'}
     id1=empty_db.add(cat1)
     id2=empty_db.add(cat2)
     id3=empty_db.add(cat3)
+    id4=empty_db.add(cat4)
     yield empty_db
+    empty_db.delete(id4)
     empty_db.delete(id3)
     empty_db.delete(id2)
     empty_db.delete(id1)
+
 
 @pytest.fixture
 def med_db(small_db):
@@ -60,7 +64,7 @@ def med_db(small_db):
 
 @pytest.mark.simple
 def test_to_trans_dict():
-    ''' teting the to_cat_dict function '''
+    ''' testing the to_cat_dict function '''
     a = to_trans_dict((7, 'alpha', 2, 'alpha', 'alpha', 'alpha'))
     assert a['rowid']==7
     assert a['item']=='alpha'
@@ -146,3 +150,28 @@ def test_select_date(med_db):
                             'date': '03-22-22', 
                             'desc': 'car'}]
 
+#Kayla
+@pytest.mark.select_month
+def test_select_month(med_db):
+    result_list = med_db.select_month('03')
+    assert result_list == [{'rowid': 1, 
+                            'item': 1, 
+                            'amount': 100, 
+                            'transaction': 'auto', 
+                            'date': '03-22-22', 
+                            'desc': 'car'}, 
+                            {'rowid': 2,
+                            'item':2,
+                            'amount':200,
+                            'transaction':'flight',
+                            'date':'03-23-22',
+                            'desc':'plane'},
+                            {'rowid': 3,
+                            'item':3,
+                            'amount':300,
+                            'transaction':'boat',
+                            'date':'03-24-22',
+                            'desc':'boat'}]
+    assert [{'rowid': 1,'item': 4, 
+            'transaction':'boat','date':'04-24-22',
+            'desc':'boat'}] not in result_list 

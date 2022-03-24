@@ -114,9 +114,11 @@ def process_choice(choice):
         input_date = input('Filter Date > ')
         trans = transactions.select_date(input_date)
         print_transactions(trans)
-    elif choice=='8':                                                         #name
+    elif choice=='8':                                                         #Kayla
         '''summarize transactions by month'''
-        raise NotImplementedError
+        input_month = input('Filter Date > ')
+        trans = transactions.select_month(input_month)
+        print_transactions(trans)
     elif choice=='9':                                                         #name
         '''summarize transactions by year'''
         raise NotImplementedError
