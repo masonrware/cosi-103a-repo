@@ -123,9 +123,11 @@ def process_choice(choice):
         input_year = input('Filter Year > ')
         trans = transactions.select_year(input_year)
         print_transactions(trans)
-    elif choice=='10':                                                        #name
+    elif choice=='10':                                                        #jason
         '''summarize transactions by category'''
-        raise NotImplementedError
+        input_category = input('Filter Category > ')
+        trans = transactions.select_category(input_category)
+        print_transactions(trans)
     elif choice=='11':                                                        #mason
         '''print menu'''
         print(menu)
