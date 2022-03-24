@@ -121,3 +121,15 @@ class Transaction:
         con.commit()
         con.close()
         return to_trans_dict_list(tuples)
+    
+    #jason
+    def select_category(self,category):
+        '''select a transaction by category'''
+        con= sqlite3.connect(self.dbfile)
+        cur = con.cursor()
+        cur.execute('''SELECT rowid,* from transactions
+                    where category=(?)''',(category,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list(tuples)
