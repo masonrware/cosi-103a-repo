@@ -36,4 +36,66 @@ tracker.py:178:10: C0209: Formatting a regular string which could be a f-string 
 ------------------------------------------------------------------
 Your code has been rated at 9.29/10 (previous run: 9.29/10, +0.00)
 
-bash-3.2$ 
+bash-3.2$ python4[K3 tracker.py
+
+0. quit
+1. show categories
+2. add category
+3. modify category
+4. show transactions
+5. add transaction
+6. delete transaction
+7. summarize transactions by date
+8. summarize transactions by month
+9. summarize transactions by year
+10. summarize transactions by category
+11. print this menu
+
+> 4
+
+
+item       amount     category   date       description                   
+----------------------------------------
+1          300        boats      03-22-23   i bought this big ass mf yacht
+> 5
+transaction amount: 500
+transaction category: test
+transaction date (MM-DD-YY): 00-00-00
+transaction description: test desc
+> 4
+
+
+item       amount     category   date       description                   
+----------------------------------------
+1          300        boats      03-22-23   i bought this big ass mf yacht
+1          500        test       00-00-00   test desc                     
+> 11
+
+0. quit
+1. show categories
+2. add category
+3. modify category
+4. show transactions
+5. add transaction
+6. delete transaction
+7. summarize transactions by date
+8. summarize transactions by month
+9. summarize transactions by year
+10. summarize transactions by category
+11. print this menu
+
+> 7
+Filter Date > 22
+
+
+item       amount     category   date       description                   
+----------------------------------------
+1          300        boats      03-22-23   i bought this big ass mf yacht
+> 7
+Filter Date > 00
+
+
+item       amount     category   date       description                   
+----------------------------------------
+1          500        test       00-00-00   test desc                     
+> 
