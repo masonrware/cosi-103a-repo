@@ -15,7 +15,7 @@ Group 20: Ben B., Kevin B., Kayla H., Jason G., Mason W.
 
 ### Description
 
-This PA manages a local database implemented in sequel via a console-based interface scripted in python. There are a number of commands accessible from within the console as well as a testing suite and a log of a successful interaction with the program located within the root directory.
+This PA manages a local database implemented in sql via a console-based interface scripted in python. There are a number of commands accessible from within the console as well as a testing suite and a log of a successful interaction with the program located within the root directory.
 
 The following are major additional methods and classes:
 
