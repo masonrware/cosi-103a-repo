@@ -133,3 +133,14 @@ class Transaction:
         con.commit()
         con.close()
         return to_trans_dict_list(tuples)
+
+    #Ben
+    def select_description(self, descrption):
+        con= sqlite3.connect(self.dbfile)
+        cur = con.cursor()
+        cur.execute('''SELECT rowid,* from transactions
+                    where desc LIKE (?)''',(descrption,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list(tuples)
