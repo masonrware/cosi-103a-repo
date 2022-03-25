@@ -58,6 +58,7 @@ MENU = '''
 9. summarize transactions by year
 10. summarize transactions by category
 11. print this menu
+12. summarize transactions by description
 '''
 
 #given
@@ -131,6 +132,11 @@ def process_choice(choice, item_num):
     elif choice=='11':                                                        #mason
         # print menu
         print(MENU)
+    #Ben
+    elif choice=='12':
+        input_description=input("Filter Description > ")
+        trans=transactions.select_description(input_description)
+        print_transactions(trans)
 
     choice = input("> ")
     return (choice, item_num)
