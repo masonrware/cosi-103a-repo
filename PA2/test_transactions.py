@@ -6,6 +6,8 @@
 
 #Written By: Mason Ware
 
+#change for github submission
+
 import pytest
 from transactions import Transaction, to_trans_dict
 
@@ -186,7 +188,7 @@ def test_select_year(med_db):
                             'amount':300,
                             'transaction':'boat',
                             'date':'04-24-23',
-                            'desc':'boat'}]]
+                            'desc':'boat'}]
    
 #jason
 @pytest.mark.select_category
@@ -196,6 +198,6 @@ def test_select_category(med_db):
     assert result_list == [{'rowid': 1, 
                             'item': 1, 
                             'amount':100,
-                            'transaction':'boat',
+                            'transaction':'auto',
                             'date':'03-22-22',
                             'desc':'car'}]

@@ -44,9 +44,8 @@ from category import Category
 
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
-item_num = 0
 
-menu = '''
+MENU = '''
 0. quit
 1. show categories
 2. add category
@@ -62,41 +61,40 @@ menu = '''
 '''
 
 #given
-def process_choice(choice):
+def process_choice(choice, item_num):
     '''This is the top level function of the program, it works to
     process the given choice and call functions with an object of
     data representation.'''
     if choice=='0':                                                           #given
-        '''quit program'''
-        return
+        # quit program
+        pass
     elif choice=='1':                                                         #given
-        '''show all categories'''
+        # show all categories
         cats = category.select_all()
         print_categories(cats)
     elif choice=='2':                                                         #given
-        '''add a category'''
+        # add a category
         cat_name = input("category name: ")
         cat_desc = input("category description: ")
         cat = {'name':cat_name, 'desc':cat_desc}
         category.add(cat)
     elif choice=='3':                                                         #given
-        '''modify a given category'''
+        # modify a given category
         rowid = int(input("rowid: "))
         new_name = input("new category name: ")
         new_desc = input("new category description: ")
         cat = {'name':new_name, 'desc':new_desc}
         category.update(rowid,cat)
     elif choice=='4':                                                         #mason
-        '''show all transactions'''
+        # show all transactions
         trans = transactions.select_all()
         print_transactions(trans)
     elif choice=='5':                                                         #mason
-        '''add a transaction'''
+        # add a transaction
         trans_amount = float(input('transaction amount: '))
         trans_category = input('transaction category: ')
         trans_date = input('transaction date (MM-DD-YY): ')
         trans_desc = input('transaction description: ')
-        global item_num
         item_num+=1
         new_trans = {'item': item_num,
                      'amount': trans_amount,
@@ -106,45 +104,47 @@ def process_choice(choice):
                      }
         transactions.add(new_trans)
     elif choice=='6':                                                         #name
-        '''delete a given transaction'''
+        # delete a given transaction
         del_rowid = input('rowid > ')
         transactions.delete(del_rowid)
         print('Transaction deleted successfully!')
     elif choice=='7':                                                         #mason
-        '''summarize transactions by day'''
+        # summarize transactions by day
         input_date = input('Filter Date > ')
         trans = transactions.select_date(input_date)
         print_transactions(trans)
     elif choice=='8':                                                         #Kayla
-        '''summarize transactions by month'''
+        # summarize transactions by month
         input_month = input('Filter Month > ')
         trans = transactions.select_month(input_month)
         print_transactions(trans)
     elif choice=='9':                                                         #Kayla
-        '''summarize transactions by year'''
+        # summarize transactions by year
         input_year = input('Filter Year > ')
         trans = transactions.select_year(input_year)
         print_transactions(trans)
     elif choice=='10':                                                        #jason
-        '''summarize transactions by category'''
+        # summarize transactions by category
         input_category = input('Filter Category > ')
         trans = transactions.select_category(input_category)
         print_transactions(trans)
     elif choice=='11':                                                        #mason
-        '''print menu'''
-        print(menu)
+        # print menu
+        print(MENU)
 
     choice = input("> ")
-    return choice
+    return (choice, item_num)
 
 #given
 def toplevel():
     ''' handle the user's choice
         read the command args and process them (psuedo)'''
-    print(menu)
+    print(MENU)
     choice = input("> ")
+    item_num = 0
     while choice != '0':
-        choice = process_choice(choice)
+        # tuple of item_num and choice to keep track
+        choice, item_num = process_choice(choice=choice, item_num=item_num)
     print('='*50 + '\nBye! :)\n\n')
     sys.exit(0)
 
