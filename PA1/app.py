@@ -1,3 +1,6 @@
+'''
+This is the flask app runner
+'''
 from flask import Flask, render_template, request
 import course_search as search
 import schedule

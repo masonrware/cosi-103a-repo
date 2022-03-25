@@ -10,9 +10,6 @@ class Schedule:
     """
     Schedule represent a list of Brandeis classes with operations for filtering
     """
-
-    #TODO implement lower casing and normalization on the comparison
-    
     def __init__(self, courses=()):
         ''' courses is a tuple of the courses being offered '''
         self.courses = courses
@@ -53,7 +50,7 @@ class Schedule:
             for time_frame in course['times']:
                 if int(endtime)==time_frame['end']:
                     res.append(course)
-        
+
         return Schedule((res))
 
     def get_all_end_times(self):
@@ -94,32 +91,17 @@ class Schedule:
     def coursenum(self, coursenum):
         ''' coursenum filters the courses by coursenum '''
         return Schedule([course for course in self.courses if course['coursenum']==coursenum])
-    
+    #comment for video
     def description(self, phrase):
         ''' phrase filters the courses by a certain searching phrase '''
         return Schedule([course for course in self.courses if phrase in course['description']])
-    
-    def title(self, titles):
-        ''' Returns the courses by a particular course title '''
-        return Schedule([course for course in self.courses if course['name'] in titles])
-  
     def instructor(self, instructors):
         '''Returns the courses taught by a particular professor'''
         return Schedule([course for course in self.courses if instructors in course['instructor']])
-    
-    def sort(self, field):
-        if field == 'subject':
-            return Schedule(sorted(self.courses, key=lambda course: course['subject']))
-        elif field == 'term':
-            return Schedule(sorted(self.courses, key=lambda course: course['term']))
-        elif field == 'title':
-            return Schedule(sorted(self.courses, key=lambda course: course['name']))
-        elif field == 'coursenum':
-            return Schedule(sorted(self.courses, key=lambda course: course['coursenum']))
-        elif field == 'description':
-            return Schedule(sorted(self.courses, key=lambda course: course['description']))
-        elif field == 'instructor':
-            return Schedule(sorted(self.courses, key=lambda course: course['instructor']))
 
+    def sort(self, field):
+        dict1 = {'subject', 'term', 'name', 'coursenum', 'description', 'instructor'}
+        if field in dict1:
+            return Schedule(sorted(self.courses, key=lambda course: course[field]))
         else:
             raise ValueError("Cannot sort the data set using {}".format(field))
