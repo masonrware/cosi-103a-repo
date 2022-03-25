@@ -186,4 +186,16 @@ def test_select_year(med_db):
                             'amount':300,
                             'transaction':'boat',
                             'date':'04-24-23',
-                            'desc':'boat'}]
+                            'desc':'boat'}]]
+   
+#jason
+@pytest.mark.select_category
+def test_select_category(med_db):
+    result_list = med_db.select_category('auto')
+    assert len(result_list) == 1
+    assert result_list == [{'rowid': 1, 
+                            'item': 1, 
+                            'amount':100,
+                            'transaction':'boat',
+                            'date':'03-22-22',
+                            'desc':'car'}]
