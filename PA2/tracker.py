@@ -137,6 +137,10 @@ def process_choice(choice, item_num):
         input_description=input("Filter Description > ")
         trans=transactions.select_description(input_description)
         print_transactions(trans)
+    elif choice=='13':                                                        #kevin
+        input_item=input("Filter Item > ")
+        trans=transactions.select_item(input_item)
+        print_transactions(trans)
 
     choice = input("> ")
     return (choice, item_num)
