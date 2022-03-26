@@ -213,15 +213,3 @@ def test_select_description(med_db):
                             'transaction':'auto',
                             'date':'03-22-22',
                             'desc':'car'}]
-
-#kevin
-@pytest.mark.select_item
-def select_item(med_db):
-    result_list = med_db.select_item('1')
-    assert len(result_list) == 1
-    assert result_list == [{'rowid': 1, 
-                            'item': 1, 
-                            'amount':100,
-                            'transaction':'auto',
-                            'date':'03-22-22',
-                            'desc':'car'}]
