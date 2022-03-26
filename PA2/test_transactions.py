@@ -214,7 +214,7 @@ def test_select_description(med_db):
                             'date':'03-22-22',
                             'desc':'car'}]
 
-kevin
+# kevin
 @pytest.mark.select_item
 def select_item(med_db):
     result_list = med_db.select_item('1')
