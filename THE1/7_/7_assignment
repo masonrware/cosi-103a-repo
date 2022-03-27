@@ -1,0 +1,60 @@
+Write the code for a Python class, Matrix,
+which represents 2x2 matrices of real numbers
+|a  b|
+|c  d|
+You can add them by adding component wise
+|a  b|
+|c  d| 
++
+|a'  b'|
+|c'  d'|
+=
+|a+a'    b+b'|
+|c+c'    d+d'|
+
+Multiplication is tricker:
+|a  b|
+|c  d| 
+*
+|a'  b'|
+|c'  d'|
+=
+|a*a' + b*c'      a*b' + c*d'|
+|c*a' + d*c'      c*b' + d*d'|
+
+Write the class and three methods, add, mult, and __str__
+and test it with this code:
+
+a = Matrix(1,2,3,4)
+b = Matrix(0,1,-1,0)
+c = a.add(b)
+d = b.mult(b).add(a)
+print('a=')
+print(a)
+print('b=')
+print(b)
+print('c=')
+print(c)
+print('d=')
+print(d)
+
+and it should produce the following results:
+
+a=
+|  1   2|
+|  3   4|
+
+b=
+|  0   1|
+| -1   0|
+
+c=
+|  1   3|
+|  2   4|
+
+d=
+|  0   2|
+|  3   3|
+
+Post your code for the class and a short movie showing you running your python code on the tests.
+	

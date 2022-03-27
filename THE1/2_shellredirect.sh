@@ -10,6 +10,8 @@
 # aeg:x:3055:60:Andrew Garland,Grad  110,2744,,2:/home/r/aeg:/bin/tcsh
 # dabrams:x:3056:60:David Abrams,Grad  110,2745,5276846,2:/home/g/grad/dabrams:/bin/tc
 
+
+
 ssh masonware@diadem.cs.brandeis.edu
 cd /tmp
 ls -l | wc

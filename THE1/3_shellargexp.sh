@@ -9,6 +9,8 @@
 # 8) delete the args_test folder and everything inside it
 # 9) exit tiara
 
+
+
 ssh masonware@diadem.cs.brandeis.edu
 mkdir args_test
 cd args_test

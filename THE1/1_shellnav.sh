@@ -11,6 +11,7 @@
 # 10. exit tiara
 
 
+
 ssh masonware@diadem.cs.brandeis.edu
 cd /usr/local/
 ls -la

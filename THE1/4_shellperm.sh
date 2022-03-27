@@ -8,6 +8,8 @@
 #    Write the bash shell commands to change the permissions of every file and folder, and subfolder, etc in exam7_test to allow you 
 #    to write it, and then give the command to delete the folder and all files within it.
 
+
+
 mkdir exam7_test
 touch exam7_test/test{00..10}.txt    #! ?
 
