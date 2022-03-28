@@ -132,4 +132,8 @@ dmypy.json
 classPractice/
 
 .idea/
+
+#specifics
 PA1venv/
+cs103a/
+cs103aExpressApp/

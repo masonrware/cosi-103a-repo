@@ -8,3 +8,9 @@
 # 6. stage and commit your changes
 # 7. switch back to the L25 branch
 
+git fetch --all
+git pull --all
+git branch -a
+git checkout L25    #! L25 does not exist on the app or class repo
+git checkout -b myL25 <old-branch>  #? from old branch
+#TODO
