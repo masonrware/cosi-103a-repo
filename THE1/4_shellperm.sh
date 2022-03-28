@@ -11,12 +11,11 @@
 
 
 mkdir exam7_test
-touch exam7_test/test{00..10}.txt    #! ?
-
-#you can r and x but not w, group can do everything, everyone can do everything
+touch exam7_test/test{00..10}.txt
 
 chmod -R 500 exam7_test
 chmod 555 exam7_test/test00.txt
 ls -l
 
-#TODO
+chmod -R 700 exam7_test
+rm -r exam7_test

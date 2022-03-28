@@ -10,9 +10,11 @@
 
 
 node app.js &> nodeout.txt &
-use the jobs command to find its job number N, then give the command kill%N
+use the jobs command to find its job number N, then give the command kill %N
 or give the command kill %nodemon  if it is the only nodemon job running
 
-use the jobs command to find its job number N, then give the command ^Z to pause it
-git status
-#TODO
+
+First type Control-Z  (^Z) to stop the program.
+it will show the job number, N, or use the jobs command to see all the jobs
+then give the command git status
+Then resume the job with the command fg %N   #! ?
