@@ -242,6 +242,7 @@ app.get('/upsertDB',
       const num = getNum(coursenum);
       course.num=num
       course.suffix = coursenum.slice(num.length)
+      //do the saame thing for course.strTime
       await Course.findOneAndUpdate({subject,coursenum,section,term},course,{upsert:true})
     }
     const num = await Course.find({}).count();
@@ -249,6 +250,8 @@ app.get('/upsertDB',
   }
 )
 
+//TODO
+//remove time2str
 
 app.post('/courses/bySubject',
   // show list of courses in a given subject
@@ -300,6 +303,23 @@ app.post('/courses/byInst',
     res.render('courselist')
   }
 )
+
+app.post('/courses/byKwarg',                                                                                    // Mason W.
+  // show list of courses with a given key word in their name
+  async (req,res,next) => {
+    const {kwarg} = req.body;
+
+    //searches by name, could search by description? less informative imo
+    const courses = await Course.find({ name: {$regex: kwarg, $options: "$i"}})
+    
+
+    res.locals.courses = courses
+    res.locals.times2str = times2str
+    //res.json(courses)
+    res.render('courselist')
+  }
+)
+
 
 app.use(isLoggedIn)
 
