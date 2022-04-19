@@ -1,18 +1,36 @@
-<ul>
+<!--Kayla-->
+<h1>This is your schedule:</h1>
+<div class="row">
+       
     <% for (course of courses){%>
-        <li> 
+        <div class="bg-light m-5 p-2 border border-primary border-2"> 
             <a href="/schedule/remove/<%= course._id %>">X</a>
-            <%= course['subject'] %>
-            <%= course.coursenum %>
-            <%= course.name %>
-            <%= course.term %>
-            
-        </li>
+                <%= course.subject %>
+                <%= course.coursenum %>
+                <%= course.name %>
+                Section <%= course.section %>
+                <br>
+                <%= course.instructor %>
+                </br>
+                Term: <%= course.term %>
+                <%= course.enrolled %> enrolled out of <%= course.limit %> seats
+                <p><%= course.details %></p>
+                <!--<script src="PA3/file2.js" type="module">
+                     import {times2str} from "/PA3/app.js";
+                    console.log(times2str(course.times))
+                </script>
+                -->
+               
+        </div>
     <% } %>
-</ul>
+</div>
 
 <!--
     <pre>
         <%= JSON.stringify(courses,null,5) %>
     </pre>
+<%= JSON.stringify(course.times) %>
+                <script src="/PA3/app.js">
+                   
+                </script>
 -->
