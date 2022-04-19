@@ -9,17 +9,14 @@
                 <%= course.coursenum %>
                 <%= course.name %>
                 Section <%= course.section %>
-                <br>
-                <%= course.instructor %>
-                </br>
+                <br>Intructor: <%= course.instructor %> </br>
                 Term: <%= course.term %>
                 <%= course.enrolled %> enrolled out of <%= course.limit %> seats
-                <p><%= course.details %></p>
-                <!--<script src="PA3/file2.js" type="module">
-                     import {times2str} from "/PA3/app.js";
-                    console.log(times2str(course.times))
-                </script>
-                -->
+                <br> Times: <%= course.strTimes %> </br>
+                <p>Details: <%= course.details %></p>
+                <p>Description: <%= course.description %></p>
+              
+                
                
         </div>
     <% } %>
@@ -29,8 +26,4 @@
     <pre>
         <%= JSON.stringify(courses,null,5) %>
     </pre>
-<%= JSON.stringify(course.times) %>
-                <script src="/PA3/app.js">
-                   
-                </script>
 -->

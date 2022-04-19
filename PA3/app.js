@@ -200,10 +200,8 @@ function times2str(times){
   } else {
     return times.map(x => time2str(x))
   }
-module.exports = { times2str };
-
-
 }
+
 function min2HourMin(m){
   // converts minutes since midnight into a time string, e.g.
   // 605 ==> "10:05"  as 10:00 is 60*10=600 minutes after midnight
