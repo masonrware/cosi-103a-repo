@@ -15,7 +15,13 @@ Start the project with
 ``` bash
 node app.js
 ```
-or install nodemon (the node monitoring app) with
+You can also start the project using
+``` bash
+npm start
+```
+or run it in your code editor of choice,
+
+or even install nodemon (the node monitoring app) with
 ``` bash
 npm install -g nodemon
 ```
@@ -24,3 +30,4 @@ and start the project with
 nodemon
 ```
 
+Once you've done any of those, go to localhost:5000 on your browser of choice, where it should be up and running for you.
