@@ -1,15 +1,26 @@
-<ul>
+<!--Kayla-->
+<h1>This is your schedule:</h1>
+<div class="row">
+       
     <% for (course of courses){%>
-        <li> 
+        <div class="bg-light m-5 p-2 border border-primary border-2"> 
             <a href="/schedule/remove/<%= course._id %>">X</a>
-            <%= course['subject'] %>
-            <%= course.coursenum %>
-            <%= course.name %>
-            <%= course.term %>
-            
-        </li>
+                <%= course.subject %>
+                <%= course.coursenum %>
+                <%= course.name %>
+                Section <%= course.section %>
+                <br>Intructor: <%= course.instructor %> </br>
+                Term: <%= course.term %>
+                <%= course.enrolled %> enrolled out of <%= course.limit %> seats
+                <br> Times: <%= course.strTimes %> </br>
+                <p>Details: <%= course.details %></p>
+                <p>Description: <%= course.description %></p>
+              
+                
+               
+        </div>
     <% } %>
-</ul>
+</div>
 
 <!--
     <pre>

@@ -201,8 +201,8 @@ function times2str(times){
   } else {
     return times.map(x => time2str(x))
   }
-  
 }
+
 function min2HourMin(m){
   // converts minutes since midnight into a time string, e.g.
   // 605 ==> "10:05"  as 10:00 is 60*10=600 minutes after midnight
@@ -302,7 +302,7 @@ app.post('/courses/byInst',
   }
 )
 
-app.post('/courses/byKwarg',                                                                                    // Mason W.
+app.post('/courses/byKwarg',                                                             // Mason W.
   // show list of courses with a given key word in their name
   async (req,res,next) => {
     const {kwarg} = req.body;
