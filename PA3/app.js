@@ -243,16 +243,13 @@ app.get('/upsertDB',
       const num = getNum(coursenum);
       course.num=num
       course.suffix = coursenum.slice(num.length)
-      course.strTimes = times2str(course.times)
+      course.strTimes = times2str(course.times) //Jason
       await Course.findOneAndUpdate({subject,coursenum,section,term},course,{upsert:true})
     }
     const num = await Course.find({}).count();
     res.send("data uploaded: "+num)
   }
 )
-
-//TODO
-//remove time2str
 
 app.post('/courses/bySubject',
   // show list of courses in a given subject

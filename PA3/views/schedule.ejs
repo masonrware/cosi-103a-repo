@@ -10,9 +10,12 @@
                 <%= course.name %>
                 Section <%= course.section %>
                 <br>Intructor: <%= course.instructor %> </br>
+                <p>Times: <%= course.strTimes %></p>
                 Term: <%= course.term %>
-                <%= course.enrolled %> enrolled out of <%= course.limit %> seats
-                <br> Times: <%= course.strTimes %> </br>
+                <p>
+                    Enrollment: <%= course.enrolled %> enrolled out of <%= course.limit %> seats
+                    <br><%= course.waiting %> students are on the waitlist</br>
+                </p>
                 <p>Details: <%= course.details %></p>
                 <p>Description: <%= course.description %></p>
               
