@@ -19,6 +19,9 @@
               <input type="text" name="subject" 
                      placeholder="e.g. COSI">
             <input type="submit">
+            <input type="checkbox" id="filter" name="filter" value="filter">
+            <label for="filter"> Only show open courses</label>
+
         </form>
         <br>
         <form method="post" action="/courses/byInst">
@@ -26,15 +29,21 @@
             <input type="text" name="email" 
                    placeholder="e.g. tjhickey">
             <input type="submit">
+            <input type="checkbox" id="filter" name="filter" value="filter">
+            <label for="filter"> Only show open courses</label>
         </form>
         <br>
         <form method="post" action="/courses/byKwarg">
             Show Courses by Key Word: 
             <input type="text" name="kwarg" 
                    placeholder="genetics">
+            
             <input type="submit">
+            <input type="checkbox" id="filter" name="filter" value="filter">
+            <label for="filter"> Only show open courses</label>
         </form>
         <br>
+
         <a href="/schedule/show">Show Schedule</a>
     <% } %>
 

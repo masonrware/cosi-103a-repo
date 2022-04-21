@@ -19,6 +19,7 @@ Here we want a ul list with the instructor, coursenum, title, term
         const sem = term%10;
         const semester=['none','Spring 2021','Summer 2021','Fall 2020']
          %>
+    <%if (filter==null||(filter!=null&&course.enrolled<course.limit)) { %>
       <tr class="mb-2"> 
         <td><%= semester[term%10] %></td>
         <td>
@@ -50,6 +51,7 @@ Here we want a ul list with the instructor, coursenum, title, term
           <%= inst[0]+" "+inst[1]%> <br> <%= " ("+inst[2]+")" %>
         </td>
     </tr>
+    <% } %>
     <% } %>
     </tbody>
 </table>

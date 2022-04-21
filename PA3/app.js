@@ -256,6 +256,13 @@ app.post('/courses/bySubject',
   async (req,res,next) => {
     const {subject} = req.body;
     const courses = await Course.find({subject:subject,independent_study:false}).sort({term:1,num:1,section:1})
+
+    const filter= req.body.filter
+    if(filter!=null){
+      res.locals.filter=filter;
+    }else{
+      res.locals.filter=null;
+    }
     
     res.locals.courses = courses
     //res.json(courses)
@@ -280,6 +287,12 @@ app.get('/courses/byInst/:email',
     const email = req.params.email+"@brandeis.edu";
     const courses = await Course.find({instructor:email,independent_study:false})
     //res.json(courses)
+    const filter= req.body.filter
+    if(filter!=null){
+      res.locals.filter=filter;
+    }else{
+      res.locals.filter=null;
+    }
     res.locals.courses = courses
     res.render('courselist')
   } 
@@ -294,6 +307,12 @@ app.post('/courses/byInst',
                .find({instructor:email,independent_study:false})
                .sort({term:1,num:1,section:1})
     //res.json(courses)
+    const filter= req.body.filter
+    if(filter!=null){
+      res.locals.filter=filter;
+    }else{
+      res.locals.filter=null;
+    }
     res.locals.courses = courses
     res.render('courselist')
   }
@@ -306,13 +325,19 @@ app.post('/courses/byKwarg',                                                    
 
     //searches by name, could search by description? less informative imo
     const courses = await Course.find({ name: {$regex: kwarg, $options: "$i"}})
-    
+    const filter= req.body.filter
+    if(filter!=null){
+      res.locals.filter=filter;
+    }else{
+      res.locals.filter=null;
+    }
 
     res.locals.courses = courses
     //res.json(courses)
     res.render('courselist')
   }
 )
+
 
 
 app.use(isLoggedIn)
