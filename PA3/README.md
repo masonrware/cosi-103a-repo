@@ -1,33 +1,45 @@
-# CS103a Express App Demo
+    
 
-This is a starter project which has a simple authentication module 
-and provides access to a mongoose database in the cloud.
+PA3
+===
 
-## Installation
-Download the project from github and download nodejs and npm from https://nodejs.org
-and cd into the folder
+COSI 103A -- Brandeis University
+================================
 
-Install the packages with
-``` bash
-npm install
-```
-Start the project with
-``` bash
-node app.js
-```
-You can also start the project using
-``` bash
-npm start
-```
-or run it in your code editor of choice,
+##### Professor TImothy J. Hickey
 
-or even install nodemon (the node monitoring app) with
-``` bash
-npm install -g nodemon
-```
-and start the project with
-``` bash
-nodemon
-```
+##### GROUP 20
 
-Once you've done any of those, go to localhost:5000 on your browser of choice, where it should be up and running for you.
+###### Date: 04/21/22
+
+* * *
+
+### Description
+
+This project is an enhancement on the schedule building app we have been demoing in class. In our additions, you can find an updated way of passing the times of a course through its routes. You will also find an updated option to search by keyword and a change to schedule.ejs
+
+### Program Structure
+
+This project is structured as a standard webpage written using EJS. It has a `models` subdir for all data templates, a `public` subdir for all static components, a `routes` subdir for authentication and a `views` subdir for the renderable front end files. Outside of these subdirs, the `app.js` file is the heart of the site.
+
+### Dependencies
+
+All dependencies can be installed with the command `npm install`.
+  
+
+* * *
+
+Build & Run
+-----------
+
+### Build Instructions
+
+There is no substantial build instruction for this project. Whatever steps you take to host a web app locally apply here.
+
+### Run Instructions
+
+In order to run the app in your browser locally, enter the command: `npm start` while in the root of this project.
+
+* * *
+
+_© 2022 MASON WARE_
