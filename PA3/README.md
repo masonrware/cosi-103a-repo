@@ -6,7 +6,7 @@ PA3
 COSI 103A -- Brandeis University
 ================================
 
-##### Professor TImothy J. Hickey
+##### Professor Timothy J. Hickey
 
 ##### GROUP 20
 
