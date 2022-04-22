@@ -341,7 +341,7 @@ app.post('/courses/byKwarg',                                                    
 app.post('/courses/bySemester',
   // show list of courses in a given semester
   async (req,res,next) => {
-    const semester = req.body;
+    const semester = req.body.semester;
     sem = 0;
     if (semester === "Spring 2021"){
       sem = 1211;
