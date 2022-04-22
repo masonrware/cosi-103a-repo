@@ -43,6 +43,15 @@
             <label for="filter"> Only show open courses</label>
         </form>
         <br>
+        <form method="post" action="/courses/bySemester">
+            Show Courses by Semester: 
+            <input type="text" name="semester" 
+                   placeholder="Fall 2020">
+            <input type="submit">
+            <input type="checkbox" id="filter" name="filter" value="filter">
+            <label for="filter"> Only show open courses</label>
+        </form>
+        <br>
 
         <a href="/schedule/show">Show Schedule</a>
     <% } %>

@@ -338,6 +338,29 @@ app.post('/courses/byKwarg',                                                    
   }
 )
 
+app.post('/courses/bySemester',
+  // show list of courses in a given semester
+  async (req,res,next) => {
+    const semester = req.body;
+    sem = 0;
+    if (semester === "Spring 2021"){
+      sem = 1211;
+    } else if(semester === "Summer 2021"){
+      sem = 1212
+    } else if(semester === "Fall 2020"){
+      sem = 1203
+    }
+    const courses = await Course.find({term:sem,independent_study:false}).sort({term:1,num:1,section:1})
+    const filter= req.body.filter
+    if(filter!=null){
+      res.locals.filter=filter;
+    }else{
+      res.locals.filter=null;
+    }
+    res.locals.courses = courses
+    res.render('courselist')
+  }
+)
 
 
 app.use(isLoggedIn)
@@ -419,6 +442,7 @@ app.set("port", port);
 
 // and now we startup the server listening on that port
 const http = require("http");
+const e = require("connect-flash");
 const server = http.createServer(app);
 
 server.listen(port);

@@ -17,6 +17,7 @@ Here we want a ul list with the instructor, coursenum, title, term
         const inst = course['instructor'];
         const term = course.term;
         const sem = term%10;
+        const filter = course.filter;
         const semester=['none','Spring 2021','Summer 2021','Fall 2020']
          %>
     <%if (filter==null||(filter!=null&&course.enrolled<course.limit)) { %>
