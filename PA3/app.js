@@ -256,13 +256,6 @@ app.post('/courses/bySubject',
   async (req,res,next) => {
     const {subject} = req.body;
     const courses = await Course.find({subject:subject,independent_study:false}).sort({term:1,num:1,section:1})
-
-    const filter= req.body.filter
-    if(filter!=null){
-      res.locals.filter=filter;
-    }else{
-      res.locals.filter=null;
-    }
     
     res.locals.courses = courses
     //res.json(courses)
@@ -287,12 +280,6 @@ app.get('/courses/byInst/:email',
     const email = req.params.email+"@brandeis.edu";
     const courses = await Course.find({instructor:email,independent_study:false})
     //res.json(courses)
-    const filter= req.body.filter
-    if(filter!=null){
-      res.locals.filter=filter;
-    }else{
-      res.locals.filter=null;
-    }
     res.locals.courses = courses
     res.render('courselist')
   } 
@@ -307,12 +294,6 @@ app.post('/courses/byInst',
                .find({instructor:email,independent_study:false})
                .sort({term:1,num:1,section:1})
     //res.json(courses)
-    const filter= req.body.filter
-    if(filter!=null){
-      res.locals.filter=filter;
-    }else{
-      res.locals.filter=null;
-    }
     res.locals.courses = courses
     res.render('courselist')
   }
@@ -325,39 +306,10 @@ app.post('/courses/byKwarg',                                                    
 
     //searches by name, could search by description? less informative imo
     const courses = await Course.find({ name: {$regex: kwarg, $options: "$i"}})
-    const filter= req.body.filter
-    if(filter!=null){
-      res.locals.filter=filter;
-    }else{
-      res.locals.filter=null;
-    }
+    
 
     res.locals.courses = courses
     //res.json(courses)
-    res.render('courselist')
-  }
-)
-
-app.post('/courses/bySemester',
-  // show list of courses in a given semester
-  async (req,res,next) => {
-    const semester = req.body.semester;
-    sem = 0;
-    if (semester === "Spring 2021"){
-      sem = 1211;
-    } else if(semester === "Summer 2021"){
-      sem = 1212
-    } else if(semester === "Fall 2020"){
-      sem = 1203
-    }
-    const courses = await Course.find({term:sem,independent_study:false}).sort({term:1,num:1,section:1})
-    const filter= req.body.filter
-    if(filter!=null){
-      res.locals.filter=filter;
-    }else{
-      res.locals.filter=null;
-    }
-    res.locals.courses = courses
     res.render('courselist')
   }
 )
@@ -437,12 +389,11 @@ app.use(function(err, req, res, next) {
 //  Starting up the server!
 // *********************************************************** //
 //Here we set the port to use between 1024 and 65535  (2^16-1)
-const port = "5000";
+const port = "10000";
 app.set("port", port);
 
 // and now we startup the server listening on that port
 const http = require("http");
-const e = require("connect-flash");
 const server = http.createServer(app);
 
 server.listen(port);
