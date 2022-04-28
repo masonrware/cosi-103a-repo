@@ -1,7 +1,0 @@
-"mongodb://thiswillwork:CONFIRM!!@localhost:27017"
-"mongodb://thiswillalsowork:CONFIRM2@localhost:27017"
-"mongodb://thiswillalsoalsowork:CONFIRM3@localhost:27017"
-"mongodb://no:012@localhost:27017"
-"mongodb://NICETRY:nope@localhost:27017"
-mongodb://no:no@localhost:27017
-"mongodb://fAiL:breaks@localhost:27017"
