@@ -17,28 +17,21 @@ Here we want a ul list with the instructor, coursenum, title, term
         const inst = course['instructor'];
         const term = course.term;
         const sem = term%10;
-        const year = (Math.round(term/10))%100
-        const semester=['none','Spring 20','Summer 20','Fall 20']
+        const semester=['none','Spring 2021','Summer 2021','Fall 2020']
          %>
       <tr class="mb-2"> 
-        <td><%= semester[sem]+year %></td>
+        <td><%= semester[term%10] %></td>
         <td>
-            <a href="/courses/bySubject/<%=course.subject %>">
-              <%=  course['subject'] %>
-            </a><a href="/courses/bySubject/<%=course.subject %>/<%= course.coursenum %>">
-              <%=  course['coursenum'] %> 
-            </a><a href="/courses/bySubject/<%=course.subject %>/<%= course.coursenum %>/<%= course.section %>">
-                (Section <%=  course['section'] %>)
-            </a>
-            
+            <a href="/courses/show/<%=course._id %>">
+            <%=  course['subject'] %>
+            <%=  course['coursenum'] %>  
+            (Section <%=  course['section'] %>) 
 
- 
+            </a>
         </td>
 
         <td>
-            <a href="/courses/byName/<%=course.name %>">
-               <strong><%= course.name %></strong>
-            </a>
+            <strong><%= course.name %></strong>
         </td>
 
         <td>
@@ -46,19 +39,15 @@ Here we want a ul list with the instructor, coursenum, title, term
         </td>
 
         <td>
-            <a href="/courses/show/<%=course._id %>">
-                <% for (t of times2str(course.times)){%> 
-                    <%= t %> <br> 
-                <%} %>
-            </a>
+        <% for (t of times2str(course.times)){%> 
+            <%= t %> <br> 
+        <%} %>
         </td>
          <!-- <%= JSON.stringify(course.times) %> <br> -->
         
 
         <td>
-          <a href="/courses/byInst/<%= inst[2] %>">
-             <%= inst[0]+" "+inst[1]%> <br> <%= " ("+inst[2]+")" %>
-          </a>
+          <%= inst[0]+" "+inst[1]%> <br> <%= " ("+inst[2]+")" %>
         </td>
     </tr>
     <% } %>

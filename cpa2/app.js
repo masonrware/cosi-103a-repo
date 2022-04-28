@@ -31,28 +31,25 @@ const Schedule = require('./models/Schedule')
 const courses2021 = require('./public/data/courses20-21.json')
 const courses2122 = require('./public/data/courses21-22.json')
 const courses = courses2122
+
 // *********************************************************** //
 //  Connecting to the database 
 // *********************************************************** //
 
 const mongoose = require( 'mongoose' );
 
-const mongodb_URI = process.env.mongodb_URI
+// const mongodb_URI = process.env.mongodb_URI
 //const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-//const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/Jason_Gordon?retryWrites=true&w=majority'
 
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
 // fix deprecation warnings
-mongoose.set('useFindAndModify', false); 
-mongoose.set('useCreateIndex', true);
+// mongoose.set('useFindAndModify', false); 
+// mongoose.set('useCreateIndex', true);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log("we are connected!!!")});
-
-
-
-
 
 // *********************************************************** //
 // Initializing the Express server 
@@ -60,29 +57,6 @@ db.once('open', function() {console.log("we are connected!!!")});
 // a server that respond to requests by sending responses
 // *********************************************************** //
 const app = express();
-
-var store = new MongoDBStore({
-  uri: mongodb_URI,
-  collection: 'mySessions'
-});
-
-// Catch errors
-store.on('error', function(error) {
-  console.log(error);
-});
-
-app.use(require('express-session')({
-  secret: 'This is a secret',
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-  },
-  store: store,
-  // Boilerplate options, see:
-  // * https://www.npmjs.com/package/express-session#resave
-  // * https://www.npmjs.com/package/express-session#saveuninitialized
-  resave: true,
-  saveUninitialized: true
-}));
 
 // Here we specify that we will be using EJS as our view engine
 app.set("views", path.join(__dirname, "views"));
@@ -106,7 +80,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Here we enable session handling using cookies
 app.use(
   session({
-    secret: "zzzbbyanana789sdfa8f9ds8f90ds87f8d9s789fds", // this ought to be hidden in process.env.SECRET
+    secret: "zzbbyanana789sdfa8f9ds8f90ds87f8d9s789fds", // this ought to be hidden in process.env.SECRET
     resave: false,
     saveUninitialized: false
   })
@@ -141,30 +115,6 @@ app.get("/about", (req, res, next) => {
   res.render("about");
 });
 
-app.get("/demo/:subject",
- async (req,res,next) => {
-  try{
-    const theCourses = await Course.find({subject:req.params.subject})
-    res.json(theCourses)
-  } catch (e){
-    next(e);
-  }
-})
-
-app.get("/demo",
- async (req,res,next) => {
-  try{
-    const theCourses = 
-        await Course.find(
-          {subject:'COSI',
-          independent_study:true,
-          enrolled:{$gt:100},
-        })
-    res.json(theCourses)
-  } catch (e){
-    next(e);
-  }
-})
 
 
 /*
@@ -287,15 +237,15 @@ function time2str(time){
 
 app.get('/upsertDB',
   async (req,res,next) => {
-    await Course.deleteMany({})
-    for (course of courses){ 
+    //await Course.deleteMany({})
+    for (course of courses){
       const {subject,coursenum,section,term}=course;
       const num = getNum(coursenum);
       course.num=num
       course.suffix = coursenum.slice(num.length)
       await Course.findOneAndUpdate({subject,coursenum,section,term},course,{upsert:true})
     }
-    const num = await Course.find({}).countDocuments();
+    const num = await Course.find({}).count();
     res.send("data uploaded: "+num)
   }
 )
@@ -306,45 +256,6 @@ app.post('/courses/bySubject',
   async (req,res,next) => {
     const {subject} = req.body;
     const courses = await Course.find({subject:subject,independent_study:false}).sort({term:1,num:1,section:1})
-    
-    res.locals.courses = courses
-    res.locals.times2str = times2str
-    //res.json(courses)
-    res.render('courselist')
-  }
-)
-app.get('/courses/bySubject/:subject',
-  // show list of courses in a given subject
-  async (req,res,next) => {
-    const {subject} = req.params;
-    const courses = await Course.find({subject:subject,independent_study:false}).sort({term:1,num:1,section:1})
-    
-    res.locals.courses = courses
-    res.locals.times2str = times2str
-    //res.json(courses)
-    res.render('courselist')
-  }
-)
-
-app.get('/courses/bySubject/:subject/:coursenum',
-  // show list of courses in a given subject 
-  async (req,res,next) => {
-    const {subject,coursenum} = req.params;
-    const courses = await Course.find({subject,coursenum,independent_study:false}).sort({term:1,num:1,section:1})
-    
-    res.locals.courses = courses
-    res.locals.times2str = times2str
-    //res.json(courses)
-    res.render('courselist')
-  }
-)
-
-app.get('/courses/bySubject/:subject/:coursenum/:section',
-  // show list of courses in a given subject
-  async (req,res,next) => {
-    const {subject,coursenum,section} = req.params;
-    const courses = 
-      await Course.find({subject,coursenum,section,independent_study:false}).sort({term:1,num:1,section:1})
     
     res.locals.courses = courses
     res.locals.times2str = times2str
@@ -368,29 +279,10 @@ app.get('/courses/show/:courseId',
 app.get('/courses/byInst/:email',
   // show a list of all courses taught by a given faculty
   async (req,res,next) => {
-    let email = req.params.email;
-    email = (email.indexOf('@')>0?email:email+"@brandeis.edu")
-    const courses = 
-       await Course
-         .find({instructor:email,enrolled:{$gt:0}})
-         .sort({term:1,enrolled:-1,coursenum:1})
+    const email = req.params.email+"@brandeis.edu";
+    const courses = await Course.find({instructor:email,independent_study:false})
     //res.json(courses)
     res.locals.courses = courses
-    res.locals.times2str = times2str
-    res.render('courselist')
-  } 
-)
-
-app.get('/courses/byName/:name',
-  async (req,res,next) => {
-    let name = req.params.name;
-    const courses = 
-       await Course
-         .find({name,enrolled:{$gt:0}})
-         .sort({term:1,enrolled:-1})
-    //res.json(courses)
-    res.locals.courses = courses
-    res.locals.times2str = times2str
     res.render('courselist')
   } 
 )
@@ -398,18 +290,66 @@ app.get('/courses/byName/:name',
 app.post('/courses/byInst',
   // show courses taught by a faculty send from a form
   async (req,res,next) => {
+    const email = req.body.email+"@brandeis.edu";
+    const courses = 
+       await Course
+               .find({instructor:email,independent_study:false})
+               .sort({term:1,num:1,section:1})
+    //res.json(courses)
+    res.locals.courses = courses
+    res.locals.times2str = times2str
+    res.render('courselist')
+  }
+)
+
+app.use(isLoggedIn)
+
+app.get('/addCourse/:courseId',
+  // add a course to the user's schedule
+  async (req,res,next) => {
     try {
-          const email = req.body.email+"@brandeis.edu";
-          const courses = 
-            await Course
-                    .find({instructor:email,independent_study:false})
-                    .sort({term:1,num:1,section:1})
-          //res.json(courses)
-          res.locals.courses = courses
-          res.locals.times2str = times2str
-          res.render('courselist')
-    } catch(error){
-      next(error)
+      const courseId = req.params.courseId
+      const userId = res.locals.user._id
+      // check to make sure it's not already loaded
+      const lookup = await Schedule.find({courseId,userId})
+      if (lookup.length==0){
+        const schedule = new Schedule({courseId,userId})
+        await schedule.save()
+      }
+      res.redirect('/schedule/show')
+    } catch(e){
+      next(e)
+    }
+  })
+
+app.get('/schedule/show',
+  // show the current user's schedule
+  async (req,res,next) => {
+    try{
+      const userId = res.locals.user._id;
+      const courseIds = 
+         (await Schedule.find({userId}))
+                        .sort(x => x.term)
+                        .map(x => x.courseId)
+      res.locals.courses = await Course.find({_id:{$in: courseIds}})
+      res.render('schedule')
+    } catch(e){
+      next(e)
+    }
+  }
+)
+
+app.get('/schedule/remove/:courseId',
+  // remove a course from the user's schedule
+  async (req,res,next) => {
+    try {
+      await Schedule.remove(
+                {userId:res.locals.user._id,
+                 courseId:req.params.courseId})
+      res.redirect('/schedule/show')
+
+    } catch(e){
+      next(e)
     }
   }
 )
@@ -655,7 +595,7 @@ app.use(function(err, req, res, next) {
 //  Starting up the server!
 // *********************************************************** //
 //Here we set the port to use between 1024 and 65535  (2^16-1)
-const port = process.env.PORT || "5000";
+const port = process.env.PORT || "15000";
 console.log('connecting on port '+port)
 
 app.set("port", port);
