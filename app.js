@@ -339,6 +339,22 @@ app.get('/schedule/show',
   }
 )
 
+const exam13 = require('./models/exam13')
+
+app.get('/getnames/:name/:sex',
+  async (req,res,next) => {
+    try {
+      const name = req.params.name
+      const sex = req.params.sex
+      const enrollments = 
+        await exam13.find({name, sex})
+      res.json(enrollments)
+    } catch(e) {
+      next(e)
+    }
+  }
+)
+
 app.get('/schedule/remove/:courseId',
   // remove a course from the user's schedule
   async (req,res,next) => {
@@ -457,19 +473,29 @@ const deptTeachingLoads = (dept) =>
         }
       ]
 
+const exam13 =
+    [
+      {$group: {
+            name: '$name',
+            sex: '$sex',
+            courseCount: {  $sum: 1}
+      }},
 
-app.get('/demo4stages',
+      {$sort: { 'courseCount': -1}}
+    ]
+
+app.get('/exam13',
   async (req,res,next) => {
    try {
-    const enrollments = 
+    const pairings = 
       await Course.aggregate(
-        demo4stages
+        exam13
       )
-    res.json(enrollments)
+    res.json(pairings)
    } catch(error) {
      next(error)
    }
-  })
+})
 
   app.get('/pivot/onInstructor',
   async (req,res,next) => {
