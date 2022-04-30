@@ -115,11 +115,6 @@ app.get("/about", (req, res, next) => {
   res.render("about");
 });
 
-
-
-/*
-    ToDoList routes
-*/
 app.get('/todo',
   isLoggedIn,   // redirect to /login if user is not logged in
   async (req,res,next) => {
@@ -165,18 +160,18 @@ app.get('/todo',
   )
 
   app.get("/todo/completed/:value/:itemId",
-  isLoggedIn,
-  async (req,res,next) => {
-    try{
-      const itemId=req.params.itemId; // get the id of the item to delete
-      const completed = req.params.value=='true';
-      await ToDoItem.findByIdAndUpdate(itemId,{completed}) // remove that item from the database
-      res.redirect('/todo') // go back to the todo page
-    } catch (e){
-      next(e);
+    isLoggedIn,
+    async (req,res,next) => {
+      try{
+        const itemId=req.params.itemId; // get the id of the item to delete
+        const completed = req.params.value=='true';
+        await ToDoItem.findByIdAndUpdate(itemId,{completed}) // remove that item from the database
+        res.redirect('/todo') // go back to the todo page
+      } catch (e){
+        next(e);
+      }
     }
-  }
-)
+  )
 
 /* ************************
   Functions needed for the course finder routes
@@ -203,6 +198,7 @@ function times2str(times){
   }
   
 }
+
 function min2HourMin(m){
   // converts minutes since midnight into a time string, e.g.
   // 605 ==> "10:05"  as 10:00 is 60*10=600 minutes after midnight
@@ -339,22 +335,6 @@ app.get('/schedule/show',
   }
 )
 
-const exam13 = require('./models/exam13')
-
-app.get('/getnames/:name/:sex',
-  async (req,res,next) => {
-    try {
-      const name = req.params.name
-      const sex = req.params.sex
-      const enrollments = 
-        await exam13.find({name, sex})
-      res.json(enrollments)
-    } catch(e) {
-      next(e)
-    }
-  }
-)
-
 app.get('/schedule/remove/:courseId',
   // remove a course from the user's schedule
   async (req,res,next) => {
@@ -472,30 +452,6 @@ const deptTeachingLoads = (dept) =>
           }
         }
       ]
-
-const exam13 =
-    [
-      {$group: {
-            name: '$name',
-            sex: '$sex',
-            courseCount: {  $sum: 1}
-      }},
-
-      {$sort: { 'courseCount': -1}}
-    ]
-
-app.get('/exam13',
-  async (req,res,next) => {
-   try {
-    const pairings = 
-      await Course.aggregate(
-        exam13
-      )
-    res.json(pairings)
-   } catch(error) {
-     next(error)
-   }
-})
 
   app.get('/pivot/onInstructor',
   async (req,res,next) => {
