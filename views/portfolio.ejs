@@ -10,7 +10,6 @@
 </form>
 
     <hr>
-    <ol>
         <% for (item of items){%>
             <b><%= item.github %>/<%= item.title %></b><br>
             <%= item.finishedOn %><br> 
@@ -24,7 +23,6 @@
            
             <hr>
         <% }%>
-    </ol>
     <hr>
     <form method="post" action="/portfolio/add">
         enter the repo name as it appears on github:<br>
