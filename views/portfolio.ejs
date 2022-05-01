@@ -1,0 +1,37 @@
+<div class="bg-light border border-primary p-3 rounded m-3">
+    <a href='/portfolio/'><h1 class="display-4 text-center">Portfol.io</h1></a>
+    <h3 class="display-4 text-center">A personal Portfolio Portal</h3>
+    <p class="lead text-center"><%= items.length %> projects hacked by <%= user['username'] %>...</p>
+</div>
+<form method="post" action="/portfolio/find">
+    find by repo name:<br>
+    <input type="text" name="find_title"><br>
+    <input type="submit" value="Find"><br>
+</form>
+
+    <hr>
+    <ol>
+        <% for (item of items){%>
+            <b><%= item.github %>/<%= item.title %></b><br>
+            <%= item.finishedOn %><br> 
+            
+            <a href="/portfolio/delete/<%= item._id%>">(delete)</a><br><br>
+            <h6><i><%= item.description %></i></h6>
+            
+            <div style='width: 40%; display: inline-block;'>
+            <div class="github-card" data-github="<%= item.github %>/<%= item.title %>" data-width="400" data-height="152" data-theme="default"></div>
+            <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+           
+            <hr>
+        <% }%>
+    </ol>
+    <hr>
+    <form method="post" action="/portfolio/add">
+        enter the repo name as it appears on github:<br>
+        <input type="text" name="title"><br>
+        enter you github @:<br>
+        <input type="text" name="github"><br>
+        write a brief or long description:<br>
+        <input type="text" name="description"><br>
+        <input type="submit" value="Save Item"><br>
+    </form>

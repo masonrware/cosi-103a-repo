@@ -7,9 +7,8 @@ var perProject = Schema( {
   userId: ObjectId,
   title: String,
   description:String,
-  language: String,
   finishedOn: Date,
-  tags: String
+  github: String
 } );
 
 module.exports = mongoose.model( 'project', perProject );
